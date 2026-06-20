@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D लेबर मैनेजमेंट सिस्टम</title>
+    <style>
+        /* Modern 3D UI/UX Design */
+        :root {
+            --primary: #1a73e8; --primary-dark: #1152a8; --primary-shadow: #0b3d82;
+            --success: #0f9d58; --success-dark: #097540; --success-shadow: #054f2a;
+            --danger: #d93025;  --danger-dark: #b32117;  --danger-shadow: #7a120b;
+            --warning: #f4b400; --warning-dark: #d49c00; --warning-shadow: #997000;
+            --bg-color: #e8ecf1; --card-bg: #ffffff;
+            --text-main: #202124; --text-muted: #5f6368; --border-color: #dadce0;
+        }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 10px; background-color: var(--bg-color); color: var(--text-main); padding-bottom: 40px;}
+        .container { max-width: 600px; margin: auto; background: transparent; min-height: 80vh; position: relative;}
+        
+        h2, h3 { text-align: center; color: var(--primary); margin-top: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);}
+        .text-center { text-align: center; }
+        .hidden { display: none !important; }
+        .mt-15 { margin-top: 15px; }
+
+        /* WARNING BANNER */
+        #storageWarning { display: none; background: linear-gradient(135deg, var(--danger), var(--danger-dark)); color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; font-weight: bold; text-align: center; box-shadow: 0 4px 15px rgba(217,48,37,0.3); border: 2px solid #fff;}
+
+        /* --- 3D AUTHENTICATION UI --- */
+        .auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 10px; }
+        .auth-card { background: #fff; width: 100%; max-width: 420px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,0.8); overflow: hidden; animation: slideUp 0.4s ease-out; border: 1px solid #fff;}
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .auth-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 35px 20px 25px; text-align: center; color: white; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 2;}
+        .auth-logo { width: 75px; height: 75px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 15px; box-shadow: 0 8px 15px rgba(0,0,0,0.3), inset 0 -4px 8px rgba(0,0,0,0.1); }
+        .auth-header h2 { margin: 0; color: white; font-size: 24px; font-weight: bold; text-shadow: 1px 2px 3px rgba(0,0,0,0.3); }
+        .auth-header p { margin: 5px 0 0; font-size: 14px; opacity: 0.9; }
+        
+        .auth-body { padding: 30px 25px; background: #fdfdfd; }
+        .auth-input-wrapper { position: relative; margin-bottom: 20px; }
+        
+        .auth-input-wrapper input, .auth-input-wrapper select, .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 16px 16px 16px 48px; border: 1px solid #dcdcdc; border-radius: 12px; font-size: 15px; color: var(--text-main); background: #f4f6f9; box-sizing: border-box; font-family: inherit; box-shadow: inset 0 4px 6px rgba(0,0,0,0.06), inset 0 1px 3px rgba(0,0,0,0.05), 0 1px 0 rgba(255,255,255,0.8); transition: all 0.2s ease; }
+        .form-group input, .form-group select, .form-group textarea { padding-left: 16px; } 
+        .auth-input-wrapper input:focus, .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 0 0 4px rgba(26,115,232,0.15); outline: none; }
+        .auth-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #777; z-index: 2;}
+
+        /* --- 3D BUTTONS --- */
+        .btn, .auth-btn { border: none; border-radius: 12px; font-size: 16px; font-weight: bold; width: 100%; cursor: pointer; transition: all 0.15s ease; color: white; padding: 15px; margin-bottom: 10px; position: relative;}
+        .auth-btn, .btn-primary { background: linear-gradient(180deg, var(--primary), var(--primary-dark)); box-shadow: 0 6px 0 var(--primary-shadow), 0 10px 15px rgba(26,115,232,0.3), inset 0 1px 2px rgba(255,255,255,0.4); }
+        .auth-btn:active, .btn-primary:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--primary-shadow), 0 2px 5px rgba(26,115,232,0.3), inset 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-success { background: linear-gradient(180deg, var(--success), var(--success-dark)); box-shadow: 0 6px 0 var(--success-shadow), 0 10px 15px rgba(15,157,88,0.3), inset 0 1px 2px rgba(255,255,255,0.4); }
+        .btn-success:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--success-shadow), inset 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-danger { background: linear-gradient(180deg, var(--danger), var(--danger-dark)); box-shadow: 0 6px 0 var(--danger-shadow), 0 10px 15px rgba(217,48,37,0.3), inset 0 1px 2px rgba(255,255,255,0.4); }
+        .btn-danger:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--danger-shadow), inset 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-warning { background: linear-gradient(180deg, var(--warning), var(--warning-dark)); color: #333; box-shadow: 0 6px 0 var(--warning-shadow), 0 10px 15px rgba(244,180,0,0.3), inset 0 1px 2px rgba(255,255,255,0.5); }
+        .btn-warning:active { transform: translateY(6px); box-shadow: 0 0px 0 var(--warning-shadow), inset 0 2px 5px rgba(0,0,0,0.2); }
+
+        .auth-links { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; }
+        .auth-links button { background: none; border: none; color: var(--primary); font-size: 14px; font-weight: bold; cursor: pointer; padding: 5px; }
+
+        /* --- 3D CARDS --- */
+        .card { background: var(--card-bg); padding: 22px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.08), 0 5px 10px rgba(0,0,0,0.04), inset 0 2px 0 rgba(255,255,255,0.9); border: 1px solid #f0f0f0;}
+        .auto-save-badge { background: #e6f4ea; color: #137333; font-size: 12px; padding: 4px 8px; border-radius: 6px; font-weight: bold; display: inline-block; margin-left: 10px; opacity: 0; transition: opacity 0.3s; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { font-weight: bold; display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;}
+        .input-readonly { background: #e9ecef !important; border-color: transparent !important; color: var(--primary-dark) !important; font-weight: bold; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05) !important;}
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(180deg, #fff, #f4f6f9); padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05), inset 0 1px 0 #fff; margin-bottom: 20px; font-size: 14px; font-weight: bold; border-left: 6px solid var(--primary); border-bottom: 1px solid #ddd;}
+        
+        .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eaeaea; padding-bottom: 10px; margin: 0 0 15px 0; }
+        .section-title { font-size: 17px; font-weight: 900; color: var(--primary-dark); margin: 0; text-transform: uppercase;}
+        .edit-btn { background: linear-gradient(180deg, #f0f4ff, #e1ecff); color: var(--primary-dark); border: 1px solid #c9daff; padding: 6px 15px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.2s;}
+        .edit-btn:active { transform: translateY(2px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        
+        .profile-view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14px; background: #f8f9fa; padding: 18px; border-radius: 12px; box-shadow: inset 0 4px 6px rgba(0,0,0,0.04), 0 1px 0 #fff; border: 1px solid #eaeaea;}
+        .profile-view-grid span { font-weight: 900; color: #333; display: block; margin-top: 3px; font-size: 16px; text-shadow: 1px 1px 0 #fff;}
+
+        /* --- 3D ATTENDANCE --- */
+        .attendance-list { display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
+        .day-row { background: linear-gradient(180deg, #ffffff, #f9f9f9); padding: 15px; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 5px 10px rgba(0,0,0,0.03); }
+        .day-header { font-weight: 900; color: var(--text-main); font-size: 15px; margin-bottom: 10px; display: flex; justify-content: space-between;}
+        .day-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        
+        .att-btns { display: flex; background: #e0e0e0; border-radius: 10px; overflow: hidden; box-shadow: inset 0 3px 6px rgba(0,0,0,0.15); padding: 3px; gap: 3px;}
+        .att-btns button { flex: 1; padding: 10px; border: none; background: #fdfdfd; cursor: pointer; font-weight: 900; font-size: 15px; color: var(--text-muted); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 #fff; transition: 0.1s;}
+        
+        .active-P { background: linear-gradient(180deg, var(--success-dark), var(--success)) !important; color: white !important; box-shadow: inset 0 4px 8px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.2) !important; transform: translateY(1px);}
+        .active-A { background: linear-gradient(180deg, var(--danger-dark), var(--danger)) !important; color: white !important; box-shadow: inset 0 4px 8px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.2) !important; transform: translateY(1px);}
+        .active-HD { background: linear-gradient(180deg, var(--warning-dark), var(--warning)) !important; color: white !important; box-shadow: inset 0 4px 8px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.2) !important; transform: translateY(1px);}
+
+        .ot-box { display: flex; align-items: center; gap: 6px; background: #e8f0fe; padding: 6px 10px; border-radius: 10px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 1px 0 #fff;}
+        .ot-box label { margin: 0; color: var(--primary-dark); font-size: 13px; font-weight: 900;}
+        .ot-box input { width: 55px; padding: 8px; height: auto; text-align: center; font-weight: 900; border: 1px solid #a8c7fa; border-radius: 6px; color: var(--primary-dark); margin-bottom: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); background: #fff;}
+
+        /* --- 3D SLIP CARD --- */
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); background: #fff; border-radius: 8px; overflow: hidden;}
+        .admin-table th, .admin-table td { border: 1px solid var(--border-color); padding: 10px; text-align: center; }
+        .admin-table th { background: linear-gradient(180deg, var(--primary), var(--primary-dark)); color: white; text-shadow: 1px 1px 0 rgba(0,0,0,0.2);}
+
+        .slip-card { background: #fff; margin-bottom: 25px; box-shadow: 0 20px 40px rgba(26,115,232,0.15), 0 5px 15px rgba(0,0,0,0.05); position: relative; overflow: hidden; z-index: 1; border-top: 8px solid var(--primary); border-bottom: 1px solid #ddd;}
+        .slip-header { text-align: center; border-bottom: 2px dashed #d2e3fc; padding-bottom: 15px; margin-bottom: 20px; position: relative; z-index: 2;}
+        .slip-header h3 { font-size: 22px; color: var(--primary-dark); font-weight: 900;}
+        
+        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg); font-size: 50px; color: rgba(26, 115, 232, 0.04); font-weight: 900; white-space: nowrap; pointer-events: none; z-index: 0; text-transform: uppercase;}
+        
+        .calc-table { width: 100%; border-collapse: collapse; font-size: 14px; position: relative; z-index: 2; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; border: 1px solid #eee;}
+        .calc-table th, .calc-table td { padding: 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        .calc-table th { background: #f8f9fa; color: #555; }
+        .total-row { font-size: 17px; font-weight: 900; color: var(--success-dark); background: #e6f4ea; border-top: 2px solid var(--success);}
+        .declaration-text { font-size: 12px; color: var(--text-muted); margin-top: 20px; font-style: italic; border-top: 1px dashed #ccc; padding-top: 10px; position: relative; z-index: 2;}
+
+        .admin-corner-btn { position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.08); border: none; color: #777; font-size: 12px; padding: 8px 12px; border-radius: 20px; cursor: pointer; z-index: 1000; font-weight: bold; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        .admin-corner-btn:active { box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); }
+        
+        @media print {
+            body { background: white; padding: 0;}
+            .container { max-width: 100%; box-shadow: none; padding: 0; margin: 0;}
+            .no-print { display: none !important; }
+            .slip-card { border: 2px solid #000; margin-top: 0; box-shadow: none !important; border-top: 2px solid #000;}
+            .watermark { color: rgba(0, 0, 0, 0.05); }
+        }
+    </style>
+</head>
+<body>
+
+<button class="admin-corner-btn no-print" type="button" onclick="showScreen('screenAdminLogin')">🔒 Admin</button>
+
+<div class="container">
+
+    <div id="storageWarning" class="no-print">
+        ⚠️ <b>ध्यान दें:</b> Google Sites की सिक्योरिटी ने डाटा सेविंग रोक दी है। आपके बटन काम करेंगे, लेकिन <b>परमानेंट डाटा सेव करने के लिए इस ऐप को Netlify.com पर अपलोड करें।</b>
+    </div>
+
+    <div id="screenLogin" class="screen auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">🏗️</div>
+                <h2>श्रम प्रबंधन ऐप</h2>
+                <p>सुरक्षित लॉगिन पैनल</p>
+            </div>
+            <div class="auth-body">
+                <div class="auth-input-wrapper">
+                    <span class="auth-icon">📱</span>
+                    <input type="text" id="loginId" placeholder="रजिस्टर मोबाइल नंबर डालें">
+                </div>
+                <div class="auth-input-wrapper">
+                    <span class="auth-icon">🔒</span>
+                    <input type="password" id="loginPin" placeholder="4 अंकों का सीक्रेट पिन">
+                </div>
+                <button class="auth-btn" type="button" onclick="loginUser()">लॉग इन करें</button>
+                <div class="auth-links">
+                    <button type="button" onclick="showScreen('screenRegister')">नया अकाउंट बनाएँ</button>
+                    <button type="button" onclick="resetPin()">पिन भूल गए?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screenAdminLogin" class="screen auth-wrapper hidden">
+        <div class="auth-card">
+            <div class="auth-header" style="background: linear-gradient(135deg, #c0392b, #8e44ad);">
+                <div class="auth-logo" style="color: #c0392b;">🛡️</div>
+                <h2>सुपर एडमिन</h2>
+                <p>मालिक एक्सेस पैनल</p>
+            </div>
+            <div class="auth-body">
+                <div class="auth-input-wrapper">
+                    <span class="auth-icon">👤</span>
+                    <input type="text" id="adminIdInput" placeholder="एडमिन यूजर आईडी डालें">
+                </div>
+                <div class="auth-input-wrapper">
+                    <span class="auth-icon">🔒</span>
+                    <input type="password" id="adminPinInput" placeholder="एडमिन पिन डालें">
+                </div>
+                <button class="auth-btn" style="background: linear-gradient(135deg, #c0392b, #8e44ad); box-shadow: 0 6px 0 #7a120b, 0 10px 15px rgba(192,57,43,0.3);" type="button" onclick="superAdminLogin()">एडमिन लॉग इन</button>
+                <div class="text-center mt-15">
+                    <button class="link-btn" style="color: #c0392b;" type="button" onclick="showScreen('screenLogin')">← वापस लेबर लॉगिन पर जाएँ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screenRegister" class="screen auth-wrapper hidden">
+        <div class="auth-card">
+            <div class="auth-header" style="background: linear-gradient(135deg, #0f9d58, #0b7a44);">
+                <div class="auth-logo" style="color: #0f9d58;">👷‍♂️</div>
+                <h2>नया अकाउंट</h2>
+                <p>अपनी जानकारी दर्ज करें</p>
+            </div>
+            <div class="auth-body">
+                <div class="auth-input-wrapper">
+                    <span class="auth-icon">⚙️</span>
+                    <select id="regRole">
+                        <option value="लेबर">लेबर (Member)</option>
+                        <option value="सुपरवाइजर">सुपरवाइजर (Supervisor)</option>
+                        <option value="इंजीनियर">इंजीनियर (Engineer)</option>
+                        <option value="ठेकेदार">ठेकेदार (Contractor)</option>
+                    </select>
+                </div>
+                <div class="auth-input-wrapper"><span class="auth-icon">👤</span><input type="text" id="regName" placeholder="अपना पूरा नाम लिखें"></div>
+                <div class="auth-input-wrapper"><span class="auth-icon">📞</span><input type="tel" id="regMobile" placeholder="10 अंकों का मोबाइल नंबर"></div>
+                <div class="auth-input-wrapper"><span class="auth-icon">🔑</span><input type="password" id="regPin" placeholder="नया 4 अंकों का पिन सेट करें"></div>
+                
+                <button class="auth-btn" style="background: linear-gradient(135deg, #0f9d58, #0b7a44); box-shadow: 0 6px 0 #054f2a, 0 10px 15px rgba(15,157,88,0.3);" type="button" onclick="registerUser()">रजिस्टर करें</button>
+                <div class="text-center mt-15"><button class="link-btn" style="color: #0f9d58;" type="button" onclick="showScreen('screenLogin')">← वापस लॉगिन पर जाएँ</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screenDash" class="screen hidden no-print" style="margin-top: 20px;">
+        <div class="header-bar">
+            <span>🛡️ <b id="dashTitle">डैशबोर्ड</b></span>
+            <button class="btn btn-danger" type="button" style="width: auto; padding: 8px 15px; font-size: 13px; margin:0;" onclick="logout()">लॉग आउट</button>
+        </div>
+        <div class="card">
+            <button class="btn btn-success" type="button" onclick="addLaborByManager()">+ नया मेंबर / लेबर जोड़ें</button>
+            <h3 style="margin-top: 15px;">रजिस्टर मेंबर लिस्ट</h3>
+            <div style="overflow-x: auto;">
+                <table class="admin-table">
+                    <thead><tr><th>नाम</th><th>रोल</th><th>नंबर</th><th>एक्शन</th></tr></thead>
+                    <tbody id="adminTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="screenApp" class="screen hidden" style="margin-top: 20px;">
+        <div class="header-bar no-print">
+            <span id="appWelcomeUser">👤 यूजर: -</span>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <span class="auto-save-badge" id="saveBadge">✓ Saved</span>
+                <button id="btnBackToDash" class="btn btn-warning hidden" type="button" style="width: auto; padding: 8px 12px; font-size: 12px; margin:0;" onclick="showScreen('screenDash')">डैशबोर्ड</button>
+                <button id="btnAppLogout" class="btn btn-danger hidden" type="button" style="width: auto; padding: 8px 12px; font-size: 12px; margin:0;" onclick="logout()">लॉग आउट</button>
+            </div>
+        </div>
+
+        <div class="card no-print" style="padding: 20px;">
+            <div class="grid-2">
+                <select id="monthSelect" style="padding: 14px; border-radius:10px; box-shadow:inset 0 3px 5px rgba(0,0,0,0.06);" onchange="renderApp()"></select>
+                <input type="number" id="yearInput" style="padding: 14px; border-radius:10px; box-shadow:inset 0 3px 5px rgba(0,0,0,0.06);" value="2026" onchange="renderApp()">
+            </div>
+        </div>
+
+        <div class="card slip-card">
+            <div class="watermark" id="slipWatermark">COMPANY NAME</div>
+            <div class="slip-header">
+                <h3 style="margin-bottom: 5px;" id="slipCompanyHeading">कंपनी का नाम</h3>
+                <span style="font-weight: 900; color: var(--text-muted); font-size:16px;">सैलरी स्लिप - <span id="cardMonth" style="color:var(--primary-dark);">महीना 2026</span></span>
+            </div>
+            
+            <div class="grid-2" style="margin-bottom: 20px; font-size: 14px; position:relative; z-index:2; border-bottom:1px solid #eee; padding-bottom:15px;">
+                <div><b style="color:var(--text-muted);">नाम:</b> <span id="cardName" style="font-weight:900; color:var(--text-main); font-size:15px;">-</span></div>
+                <div><b style="color:var(--text-muted);">लेबर ID:</b> <span id="cardId" style="font-weight:900; color:var(--text-main); font-size:15px;">-</span></div>
+                <div><b style="color:var(--text-muted);">रोल:</b> <span id="cardRole" style="font-weight:900; color:var(--text-main); font-size:15px;">-</span></div>
+                <div><b style="color:var(--text-muted);">जॉइनिंग:</b> <span id="cardJoinDate" style="font-weight:900; color:var(--text-main); font-size:15px;">-</span></div>
+            </div>
+            
+            <div class="grid-2" style="margin-bottom: 20px; font-size: 15px; background: linear-gradient(135deg, #e8f0fe, #f4f8ff); padding: 15px; border-radius: 10px; position:relative; z-index:2; box-shadow: inset 0 2px 5px #fff, 0 3px 8px rgba(0,0,0,0.05); border: 1px solid #d2e3fc;">
+                <div><b>1 दिन की दिहाड़ी:</b> <span style="color:var(--success-dark); font-weight:900;">₹<span id="cardDaily">0</span></span></div>
+                <div><b>1 घंटे का OT रेट:</b> <span style="color:var(--primary-dark); font-weight:900;">₹<span id="cardHrRate">0</span></span></div>
+            </div>
+
+            <table class="calc-table">
+                <tr><th>विवरण (Details)</th><th>दिन / घंटे</th><th>रकम (₹)</th></tr>
+                <tr><td>उपस्थित (Present)</td><td id="c-P" style="font-weight:bold;">0 दिन</td><td id="c-PAmt" style="font-weight:bold;">₹0</td></tr>
+                <tr><td>हाफ डे (Half Day)</td><td id="c-HD" style="font-weight:bold;">0 दिन</td><td id="c-HDAmt" style="font-weight:bold;">₹0</td></tr>
+                <tr><td>कुल ओवरटाइम (OT)</td><td id="c-OT" style="font-weight:bold;">0 घंटे</td><td id="c-OTAmt" style="font-weight:bold; color:var(--primary-dark);">₹0</td></tr>
+                <tr><td style="color:var(--danger-dark); font-weight:bold;">एडवांस कटा (Advance)</td><td colspan="2" style="color:var(--danger-dark); font-weight:900; text-align:right;" id="c-Adv">- ₹0</td></tr>
+                <tr class="total-row"><td>कुल देय राशि (Final Pay)</td><td colspan="2" style="text-align:right; font-size:20px;" id="c-Final">₹0</td></tr>
+            </table>
+            <div class="declaration-text" id="slipDeclaration">डिक्लेरेशन: यह कंप्यूटर जनरेटेड स्लिप है।</div>
+            <button class="btn btn-primary no-print mt-15" type="button" onclick="window.print()" style="margin-bottom: 0; position:relative; z-index:2;">🖨️ स्लिप प्रिंट करें</button>
+        </div>
+
+        <div class="card no-print" id="profileCard">
+            <div class="section-header">
+                <span class="section-title">प्रोफाइल और कंपनी की जानकारी</span>
+                <button id="btnEditProfile" class="edit-btn hidden" type="button" onclick="toggleProfileEdit(true)">✏️ एडिट करें</button>
+            </div>
+
+            <div id="profileViewSection" class="profile-view-grid hidden">
+                <div>नाम: <span id="vName">-</span></div>
+                <div>कंपनी: <span id="vCompany">-</span></div>
+                <div>लेबर ID: <span id="vId">-</span></div>
+                <div>जॉइनिंग डेट: <span id="vJoinDate">-</span></div>
+                <div>1 दिन का वेतन: <span id="vDailyWage" style="color:var(--success-dark);">₹0</span></div>
+                <div>रोज के घंटे: <span id="vHours">0</span></div>
+                <div>लिया एडवांस: <span id="vAdvance" style="color:var(--danger-dark);">₹0</span></div>
+                <div style="grid-column: span 2;">डिक्लेरेशन: <span id="vDec" style="font-weight:normal; color:#555;">-</span></div>
+            </div>
+
+            <div id="profileEditSection">
+                <div class="grid-2">
+                    <div class="form-group"><label>नाम:</label><input type="text" id="profName" oninput="triggerAutoSave()"></div>
+                    <div class="form-group"><label>लेबर ID:</label><input type="text" id="profId" placeholder="उदा: EMP-101" oninput="triggerAutoSave()"></div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label>कंपनी का नाम:</label><input type="text" id="profCompany" placeholder="कंपनी दर्ज करें" oninput="triggerAutoSave()"></div>
+                    <div class="form-group"><label>जॉइनिंग डेट:</label><input type="date" id="profJoinDate" oninput="triggerAutoSave()"></div>
+                </div>
+                <div class="section-title" style="margin-top:10px; border-bottom:none;">वेतन सेटिंग</div>
+                <div class="grid-2">
+                    <div class="form-group"><label>1 दिन का वेतन (₹):</label><input type="number" id="profDailyWage" value="500" oninput="triggerAutoSave()"></div>
+                    <div class="form-group"><label>रोज के काम के घंटे:</label><input type="number" id="profHours" value="8" oninput="triggerAutoSave()"></div>
+                </div>
+                <div class="form-group mt-15"><label>लिया एडवांस (₹):</label><input type="number" id="profAdvance" value="0" oninput="triggerAutoSave()"></div>
+                <div class="form-group mt-15">
+                    <label>डिक्लेरेशन / घोषणा (शर्तें):</label>
+                    <textarea id="profDeclaration" rows="2" placeholder="यहाँ कोई भी नियम लिखें" oninput="triggerAutoSave()"></textarea>
+                </div>
+                <button class="btn btn-success mt-15" type="button" onclick="lockProfile()" style="margin-bottom:0;">💾 डाटा सेव और फॉर्म लॉक करें</button>
+            </div>
+        </div>
+
+        <div class="card no-print">
+            <div class="section-title" style="margin-top:0;">हाजिरी और डेली OT रजिस्टर <span style="font-size:12px; color:var(--success); font-weight:normal;">(Auto-Save चालू है)</span></div>
+            <div class="attendance-list" id="attList"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- CRASH PROOF SYSTEM FOR GOOGLE SITES ---
+    const SUPER_ADMIN_ID = "Santosh822124"; 
+    let SUPER_ADMIN_PIN = "822124";
+    let db = {};
+    let isStorageBlocked = false;
+
+    // Safely execute on load without crashing
+    window.addEventListener('DOMContentLoaded', (event) => {
+        safeLoadDB();
+        try {
+            const monthSelect = document.getElementById('monthSelect');
+            months.forEach((m, i) => { monthSelect.innerHTML += `<option value="${i}">${m}</option>`; });
+            let d = new Date();
+            document.getElementById('monthSelect').value = d.getMonth();
+            document.getElementById('yearInput').value = d.getFullYear();
+        } catch(err) { console.error(err); }
+    });
+
+    function safeLoadDB() {
+        try {
+            // Testing if localStorage works
+            let test = window.localStorage.getItem('test'); 
+            
+            let savedPin = window.localStorage.getItem('SuperAdminPin_SafeV2');
+            if(savedPin) SUPER_ADMIN_PIN = savedPin;
+
+            let savedDB = window.localStorage.getItem('SmartLaborDB_SafeV2');
+            if(savedDB) { db = JSON.parse(savedDB); }
+        } catch(e) {
+            isStorageBlocked = true;
+            db = {};
+            setTimeout(() => {
+                let warn = document.getElementById('storageWarning');
+                if(warn) warn.style.display = 'block';
+            }, 1000);
+        }
+    }
+
+    function safeSaveDB() { 
+        if(isStorageBlocked) {
+            let warn = document.getElementById('storageWarning');
+            if(warn) warn.style.display = 'block';
+            return; // Exit if blocked, data remains in session memory
+        }
+        try { window.localStorage.setItem('SmartLaborDB_SafeV2', JSON.stringify(db)); } 
+        catch(e) {} 
+    }
+
+    let activeLoginMobile = ""; 
+    let activeLaborMobile = ""; 
+    let activeRole = "";
+    let isSuperAdmin = false;
+
+    const MANAGER_ROLES = ["सुपरवाइजर", "इंजीनियर", "ठेकेदार"];
+    const months = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
+    
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+        document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    let saveTimeout;
+    function showSaveBadge() {
+        let badge = document.getElementById('saveBadge');
+        if(badge) {
+            badge.style.opacity = 1;
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => { badge.style.opacity = 0; }, 1500);
+        }
+    }
+
+    // --- LOGINS ---
+    function loginUser() {
+        try {
+            let loginId = document.getElementById('loginId').value.trim();
+            let pin = document.getElementById('loginPin').value.trim();
+
+            if(!loginId || !pin) return alert("नंबर और पिन डालें!");
+
+            if(loginId.toLowerCase() === SUPER_ADMIN_ID.toLowerCase() && pin === SUPER_ADMIN_PIN) {
+                isSuperAdmin = true; activeRole = "सुपर एडमिन";
+                document.getElementById('loginId').value = ""; document.getElementById('loginPin').value = "";
+                loadDash(); return;
+            }
+
+            if(db[loginId] && db[loginId].pin === pin) {
+                activeLoginMobile = loginId; activeRole = db[loginId].role || "लेबर"; isSuperAdmin = false;
+                document.getElementById('loginId').value = ""; document.getElementById('loginPin').value = "";
+
+                if(MANAGER_ROLES.includes(activeRole)) { loadDash(); } 
+                else {
+                    activeLaborMobile = loginId; 
+                    document.getElementById('btnBackToDash').classList.add('hidden');
+                    document.getElementById('btnAppLogout').classList.remove('hidden');
+                    document.getElementById('appWelcomeUser').innerHTML = `👤 <b>${db[loginId].name}</b>`;
+                    loadApp();
+                }
+            } else { alert("मोबाइल नंबर या पिन गलत है!"); }
+        } catch(e) { alert("सिस्टम एरर: " + e.message); }
+    }
+
+    function superAdminLogin() {
+        let userId = document.getElementById('adminIdInput').value.trim();
+        let pin = document.getElementById('adminPinInput').value.trim();
+
+        if(userId.toLowerCase() === SUPER_ADMIN_ID.toLowerCase() && pin === SUPER_ADMIN_PIN) {
+            isSuperAdmin = true; activeRole = "सुपर एडमिन";
+            document.getElementById('adminIdInput').value = ""; document.getElementById('adminPinInput').value = "";
+            loadDash();
+        } else { alert("एडमिन आईडी या पिन गलत है!"); }
+    }
+
+    function registerUser() {
+        try {
+            let name = document.getElementById('regName').value.trim();
+            let mobile = document.getElementById('regMobile').value.trim();
+            let pin = document.getElementById('regPin').value.trim();
+            let role = document.getElementById('regRole').value;
+
+            if(!name || !mobile || !pin) return alert("कृपया सभी जानकारी भरें!");
+            if(mobile.length < 10) return alert("सही 10 अंकों का मोबाइल नंबर डालें!");
+            if(db[mobile]) return alert("यह मोबाइल नंबर पहले से रजिस्टर है।");
+
+            db[mobile] = { role: role, pin: pin, name: name, empId: "", company: "", joinDate: "", declaration: "", dailyWage: 500, hours: 8, advance: 0, attendanceStat: {}, attendanceOT: {} };
+            safeSaveDB();
+            alert("अकाउंट सफलतापूर्वक बन गया है!");
+            document.getElementById('regName').value = ""; document.getElementById('regMobile').value = ""; document.getElementById('regPin').value = "";
+            showScreen('screenLogin');
+        } catch(e) { alert("एरर: " + e.message); }
+    }
+
+    function resetPin() { alert("सुरक्षा कारणों से, कृपया नया पिन बनाने के लिए एडमिन से संपर्क करें।"); }
+    function logout() { activeLoginMobile = ""; activeLaborMobile = ""; activeRole = ""; isSuperAdmin = false; showScreen('screenLogin'); }
+
+    // --- DASHBOARD ---
+    function loadDash() {
+        showScreen('screenDash');
+        let titleName = isSuperAdmin ? "मालिक" : db[activeLoginMobile].name;
+        document.getElementById('dashTitle').innerText = `${activeRole} पैनल (${titleName})`;
+        
+        let tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = "";
+        let hasData = false;
+        
+        for(let mobile in db) {
+            hasData = true;
+            let user = db[mobile];
+            tbody.innerHTML += `
+                <tr>
+                    <td><b>${user.name || "नाम नहीं"}</b></td>
+                    <td style="color:var(--primary-dark); font-size:12px;">${user.role || "लेबर"}</td>
+                    <td>${mobile}</td>
+                    <td>
+                        <button type="button" class="btn-primary" style="padding:6px 10px; font-size:12px; margin-bottom:5px; border-radius:6px; box-shadow:none;" onclick="editUser('${mobile}')">एडिट</button>
+                        <button type="button" class="btn-danger" style="padding:6px 10px; font-size:12px; border-radius:6px; box-shadow:none;" onclick="deleteUser('${mobile}')">डिलीट</button>
+                    </td>
+                </tr>`;
+        }
+        if(!hasData) tbody.innerHTML = `<tr><td colspan="4">कोई रजिस्टर मेंबर नहीं है।</td></tr>`;
+    }
+
+    function addLaborByManager() {
+        let name = prompt("नए लेबर/मेंबर का नाम डालें:"); if(!name) return;
+        let mobile = prompt("10 अंकों का मोबाइल नंबर डालें:"); if(!mobile || mobile.length < 10) return alert("सही मोबाइल नंबर डालें!");
+        if(db[mobile]) return alert("यह मोबाइल नंबर पहले से रजिस्टर है!");
+        let pin = prompt("लॉगिन के लिए 4 अंकों का पिन बनाएँ:"); if(!pin) return;
+
+        db[mobile] = { role: "लेबर", pin: pin, name: name, empId: "", company: "", joinDate: "", declaration: "", dailyWage: 500, hours: 8, advance: 0, attendanceStat: {}, attendanceOT: {} };
+        safeSaveDB(); alert("नया मेंबर जुड़ गया है!"); loadDash();
+    }
+
+    function deleteUser(mobile) {
+        if(!isSuperAdmin && mobile === activeLoginMobile) return alert("आप खुद का अकाउंट डिलीट नहीं कर सकते!");
+        if(confirm("क्या आप वाकई इस मेंबर का डाटा डिलीट करना चाहते हैं?")) { delete db[mobile]; safeSaveDB(); loadDash(); }
+    }
+
+    function editUser(mobile) {
+        activeLaborMobile = mobile;
+        document.getElementById('btnBackToDash').classList.remove('hidden');
+        document.getElementById('btnAppLogout').classList.add('hidden');
+        document.getElementById('appWelcomeUser').innerHTML = `👤 <b>${db[mobile].name}</b>`;
+        loadApp();
+    }
+
+    // --- MAIN APP ---
+    function loadApp() {
+        showScreen('screenApp');
+        let data = db[activeLaborMobile];
+        
+        document.getElementById('profName').value = data.name || "";
+        document.getElementById('profId').value = data.empId || "";
+        document.getElementById('profCompany').value = data.company || "";
+        document.getElementById('profJoinDate').value = data.joinDate || "";
+        document.getElementById('profDeclaration').value = data.declaration || "";
+        document.getElementById('profDailyWage').value = data.dailyWage || 500;
+        document.getElementById('profHours').value = data.hours || 8;
+        document.getElementById('profAdvance').value = data.advance || 0;
+        
+        if(data.company || data.empId || data.joinDate) { toggleProfileEdit(false); } 
+        else { toggleProfileEdit(true); }
+
+        renderApp();
+    }
+
+    function triggerAutoSave() {
+        if(!activeLaborMobile || !db[activeLaborMobile]) return;
+        let data = db[activeLaborMobile];
+        
+        data.name = document.getElementById('profName').value.trim();
+        data.empId = document.getElementById('profId').value.trim();
+        data.company = document.getElementById('profCompany').value.trim();
+        data.joinDate = document.getElementById('profJoinDate').value;
+        data.declaration = document.getElementById('profDeclaration').value.trim();
+        data.dailyWage = parseFloat(document.getElementById('profDailyWage').value) || 0;
+        data.hours = parseFloat(document.getElementById('profHours').value) || 8;
+        data.advance = parseFloat(document.getElementById('profAdvance').value) || 0;
+        
+        safeSaveDB(); calculate(); showSaveBadge();
+    }
+
+    function lockProfile() {
+        triggerAutoSave();
+        toggleProfileEdit(false);
+    }
+
+    function toggleProfileEdit(isEditMode) {
+        const editSection = document.getElementById('profileEditSection');
+        const viewSection = document.getElementById('profileViewSection');
+        const editBtn = document.getElementById('btnEditProfile');
+
+        if(isEditMode) {
+            editSection.classList.remove('hidden');
+            viewSection.classList.add('hidden');
+            editBtn.classList.add('hidden'); 
+        } else {
+            let data = db[activeLaborMobile];
+            document.getElementById('vName').innerText = data.name || "-";
+            document.getElementById('vCompany').innerText = data.company || "-";
+            document.getElementById('vId').innerText = data.empId || "-";
+            document.getElementById('vJoinDate').innerText = data.joinDate || "-";
+            document.getElementById('vDailyWage').innerText = `₹${data.dailyWage || 0}`;
+            document.getElementById('vHours').innerText = data.hours || 0;
+            document.getElementById('vAdvance').innerText = `₹${data.advance || 0}`;
+            document.getElementById('vDec').innerText = data.declaration || "-";
+
+            editSection.classList.add('hidden');
+            viewSection.classList.remove('hidden');
+            editBtn.classList.remove('hidden'); 
+        }
+    }
+
+    // --- ATTENDANCE ---
+    function toggleAtt(key, val) {
+        if(!db[activeLaborMobile].attendanceStat) db[activeLaborMobile].attendanceStat = {};
+        if (db[activeLaborMobile].attendanceStat[key] === val) delete db[activeLaborMobile].attendanceStat[key];
+        else db[activeLaborMobile].attendanceStat[key] = val;
+        safeSaveDB(); renderApp(); showSaveBadge();
+    }
+
+    function updateDailyOT(key, val) {
+        if(!db[activeLaborMobile].attendanceOT) db[activeLaborMobile].attendanceOT = {};
+        db[activeLaborMobile].attendanceOT[key] = parseFloat(val) || 0;
+        safeSaveDB(); calculate(); showSaveBadge();
+    }
+
+    function renderApp() {
+        let month = parseInt(document.getElementById('monthSelect').value);
+        let year = document.getElementById('yearInput').value;
+        let listDiv = document.getElementById('attList');
+        listDiv.innerHTML = ''; 
+        
+        let daysInMonth = new Date(year, month + 1, 0).getDate();
+        let attStat = db[activeLaborMobile].attendanceStat || {};
+        let attOT = db[activeLaborMobile].attendanceOT || {};
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            let key = `${year}-${month}-${day}`;
+            let status = attStat[key] || '';
+            let otHrs = attOT[key] || '';
+            
+            let row = document.createElement('div');
+            row.className = 'day-row';
+            row.innerHTML = `
+                <div class="day-header"><span>📅 ${day} ${months[month]}</span></div>
+                <div class="day-actions">
+                    <div class="att-btns">
+                        <button type="button" class="${status === 'P' ? 'active-P' : ''}" onclick="toggleAtt('${key}', 'P')">P</button>
+                        <button type="button" class="${status === 'A' ? 'active-A' : ''}" onclick="toggleAtt('${key}', 'A')">A</button>
+                        <button type="button" class="${status === 'HD' ? 'active-HD' : ''}" onclick="toggleAtt('${key}', 'HD')">HD</button>
+                    </div>
+                    <div class="ot-box">
+                        <label>OT(घंटे):</label>
+                        <input type="number" value="${otHrs}" placeholder="0" oninput="updateDailyOT('${key}', this.value)">
+                    </div>
+                </div>`;
+            listDiv.appendChild(row);
+        }
+        calculate();
+    }
+
+    function calculate() {
+        let month = parseInt(document.getElementById('monthSelect').value);
+        let year = document.getElementById('yearInput').value;
+        let data = db[activeLaborMobile] || {};
+        
+        let dailyWage = data.dailyWage || 0;
+        let hours = data.hours || 8;
+        let advance = data.advance || 0;
+
+        let pCount = 0, hdCount = 0, totalOTHours = 0;
+        let attStat = data.attendanceStat || {};
+        let attOT = data.attendanceOT || {};
+
+        for (let day = 1; day <= 31; day++) {
+            let key = `${year}-${month}-${day}`;
+            if (attStat[key] === 'P') pCount++;
+            if (attStat[key] === 'HD') hdCount++;
+            if (attOT[key]) totalOTHours += parseFloat(attOT[key]);
+        }
+
+        let hourlyWage = hours > 0 ? (dailyWage / hours) : 0;
+        let pAmt = pCount * dailyWage;
+        let hdAmt = hdCount * (dailyWage / 2);
+        let otAmt = totalOTHours * hourlyWage;
+        let finalPay = pAmt + hdAmt + otAmt - advance;
+
+        // Card & Watermark Update
+        let cName = data.company || "";
+        document.getElementById('slipCompanyHeading').innerText = cName ? cName : "सैलरी स्लिप विवरण";
+        document.getElementById('slipWatermark').innerText = cName ? cName : "APPROVED";
+        
+        document.getElementById('cardMonth').innerText = `${months[month]} ${year}`;
+        document.getElementById('cardName').innerText = data.name || "-";
+        document.getElementById('cardId').innerText = data.empId || "-";
+        document.getElementById('cardRole').innerText = data.role || "लेबर";
+        document.getElementById('cardJoinDate').innerText = data.joinDate || "-";
+        
+        document.getElementById('cardDaily').innerText = dailyWage.toFixed(2);
+        document.getElementById('cardHrRate').innerText = hourlyWage.toFixed(2);
+        
+        document.getElementById('c-P').innerText = `${pCount} दिन`;
+        document.getElementById('c-PAmt').innerText = `₹${pAmt.toFixed(2)}`;
+        
+        document.getElementById('c-HD').innerText = `${hdCount} दिन`;
+        document.getElementById('c-HDAmt').innerText = `₹${hdAmt.toFixed(2)}`;
+        
+        document.getElementById('c-OT').innerText = `${totalOTHours} घंटे`;
+        document.getElementById('c-OTAmt').innerText = `₹${otAmt.toFixed(2)}`;
+        
+        document.getElementById('c-Adv').innerText = `- ₹${advance}`;
+        document.getElementById('c-Final').innerText = `₹${finalPay.toFixed(2)}`;
+
+        let decText = data.declaration || "";
+        let slipDec = document.getElementById('slipDeclaration');
+        if(decText) { slipDec.style.display = "block"; slipDec.innerText = "डिक्लेरेशन: " + decText; } 
+        else { slipDec.style.display = "none"; }
+    }
+</script>
+
+</body>
+</html>
