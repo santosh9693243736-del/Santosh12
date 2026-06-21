@@ -101,9 +101,7 @@
         .slip-card { background: #fff; margin-bottom: 25px; box-shadow: 0 20px 40px rgba(26,115,232,0.15), 0 5px 15px rgba(0,0,0,0.05); position: relative; overflow: hidden; z-index: 1; border-top: 8px solid var(--primary); border-bottom: 1px solid #ddd;}
         .slip-header { text-align: center; border-bottom: 2px dashed #d2e3fc; padding-bottom: 15px; margin-bottom: 20px; position: relative; z-index: 2;}
         .slip-header h3 { font-size: 22px; color: var(--primary-dark); font-weight: 900;}
-        
         .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg); font-size: 50px; color: rgba(26, 115, 232, 0.04); font-weight: 900; white-space: nowrap; pointer-events: none; z-index: 0; text-transform: uppercase;}
-        
         .calc-table { width: 100%; border-collapse: collapse; font-size: 14px; position: relative; z-index: 2; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; border: 1px solid #eee;}
         .calc-table th, .calc-table td { padding: 12px; border-bottom: 1px solid #e0e0e0; text-align: left; }
         .calc-table th { background: #f8f9fa; color: #555; }
@@ -129,7 +127,7 @@
 <div class="container">
 
     <div id="storageWarning" class="no-print">
-        ⚠️ <b>ध्यान दें:</b> Google Sites की सिक्योरिटी ने डाटा सेविंग रोक दी है। आपके बटन काम करेंगे, लेकिन <b>परमानेंट डाटा सेव करने के लिए इस ऐप को Netlify.com पर अपलोड करें।</b>
+        ⚠️ <b>ध्यान दें:</b> सुरक्षा कारणों से ऑनलाइन सेविंग रुकी है। ऐप को 'Add to Home Screen' करें।
     </div>
 
     <div id="screenLogin" class="screen auth-wrapper">
@@ -151,7 +149,7 @@
                 <button class="auth-btn" type="button" onclick="loginUser()">लॉग इन करें</button>
                 <div class="auth-links">
                     <button type="button" onclick="showScreen('screenRegister')">नया अकाउंट बनाएँ</button>
-                    <button type="button" onclick="resetPin()">पिन भूल गए?</button>
+                    <button type="button" onclick="resetMemberPin()">पिन भूल गए?</button>
                 </div>
             </div>
         </div>
@@ -174,8 +172,9 @@
                     <input type="password" id="adminPinInput" placeholder="एडमिन पिन डालें">
                 </div>
                 <button class="auth-btn" style="background: linear-gradient(135deg, #c0392b, #8e44ad); box-shadow: 0 6px 0 #7a120b, 0 10px 15px rgba(192,57,43,0.3);" type="button" onclick="superAdminLogin()">एडमिन लॉग इन</button>
-                <div class="text-center mt-15">
-                    <button class="link-btn" style="color: #c0392b;" type="button" onclick="showScreen('screenLogin')">← वापस लेबर लॉगिन पर जाएँ</button>
+                <div class="text-center mt-15" style="display:flex; flex-direction:column; gap:10px;">
+                    <button class="link-btn" style="color: #c0392b;" type="button" onclick="resetAdminPin()">पिन भूल गए (Reset)?</button>
+                    <button class="link-btn" style="color: #777;" type="button" onclick="showScreen('screenLogin')">← वापस लेबर लॉगिन पर जाएँ</button>
                 </div>
             </div>
         </div>
@@ -328,7 +327,6 @@
     let db = {};
     let isStorageBlocked = false;
 
-    // Safely execute on load without crashing
     window.addEventListener('DOMContentLoaded', (event) => {
         safeLoadDB();
         try {
@@ -342,13 +340,10 @@
 
     function safeLoadDB() {
         try {
-            // Testing if localStorage works
             let test = window.localStorage.getItem('test'); 
-            
-            let savedPin = window.localStorage.getItem('SuperAdminPin_SafeV2');
+            let savedPin = window.localStorage.getItem('SuperAdminPin_SafeV4');
             if(savedPin) SUPER_ADMIN_PIN = savedPin;
-
-            let savedDB = window.localStorage.getItem('SmartLaborDB_SafeV2');
+            let savedDB = window.localStorage.getItem('SmartLaborDB_SafeV4');
             if(savedDB) { db = JSON.parse(savedDB); }
         } catch(e) {
             isStorageBlocked = true;
@@ -361,12 +356,8 @@
     }
 
     function safeSaveDB() { 
-        if(isStorageBlocked) {
-            let warn = document.getElementById('storageWarning');
-            if(warn) warn.style.display = 'block';
-            return; // Exit if blocked, data remains in session memory
-        }
-        try { window.localStorage.setItem('SmartLaborDB_SafeV2', JSON.stringify(db)); } 
+        if(isStorageBlocked) return; 
+        try { window.localStorage.setItem('SmartLaborDB_SafeV4', JSON.stringify(db)); } 
         catch(e) {} 
     }
 
@@ -453,7 +444,43 @@
         } catch(e) { alert("एरर: " + e.message); }
     }
 
-    function resetPin() { alert("सुरक्षा कारणों से, कृपया नया पिन बनाने के लिए एडमिन से संपर्क करें।"); }
+    // --- NEW: PIN RESET FIXES ---
+    function resetMemberPin() {
+        let mobile = prompt("पिन बदलने के लिए अपना रजिस्टर 10 अंकों का मोबाइल नंबर डालें:");
+        if (!mobile) return;
+        mobile = mobile.trim();
+
+        if (db[mobile]) {
+            let newPin = prompt("नया 4 अंकों का पिन (PIN) सेट करें:");
+            if (newPin && newPin.trim() !== "") { 
+                db[mobile].pin = newPin.trim(); 
+                safeSaveDB(); 
+                alert("आपका पिन सफलतापूर्वक बदल गया है! अब नए पिन से लॉग इन करें।"); 
+            } else {
+                alert("पिन बदलना रद्द किया गया।");
+            }
+        } else { 
+            alert("यह नंबर सिस्टम में रजिस्टर नहीं है! कृपया पहले नया अकाउंट बनाएँ।"); 
+        }
+    }
+
+    function resetAdminPin() {
+        // HINT REMOVED FROM PROMPT STRING FOR SECURITY
+        let userId = prompt("पिन रीसेट करने के लिए अपनी 'एडमिन यूजर आईडी' डालें:");
+        if (!userId) return;
+        
+        if (userId.trim().toLowerCase() === SUPER_ADMIN_ID.toLowerCase()) {
+            let newPin = prompt("नया एडमिन पिन (PIN) डालें:");
+            if (newPin && newPin.trim() !== "") {
+                SUPER_ADMIN_PIN = newPin.trim();
+                try { window.localStorage.setItem('SuperAdminPin_SafeV4', SUPER_ADMIN_PIN); } catch(e){}
+                alert("एडमिन का पिन सफलतापूर्वक बदल दिया गया है!");
+            }
+        } else { 
+            alert("गलत यूजर आईडी! आप एडमिन पिन नहीं बदल सकते।"); 
+        }
+    }
+
     function logout() { activeLoginMobile = ""; activeLaborMobile = ""; activeRole = ""; isSuperAdmin = false; showScreen('screenLogin'); }
 
     // --- DASHBOARD ---
