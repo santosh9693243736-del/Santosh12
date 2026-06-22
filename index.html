@@ -2,135 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Labor Pro - Solid Fixed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smart Labor Pro - Ultimate Fixed Edition</title>
     <style>
-        /* SOLID PREMIUM UI DESIGN - NO CRASH */
+        /* SOLID PREMIUM UI DESIGN */
         :root {
-            --primary: #2563eb; --primary-dark: #1e40af; 
-            --success: #10b981; --success-dark: #065f46; 
-            --danger: #ef4444;  --danger-dark: #991b1b; 
-            --warning: #f59e0b; --warning-dark: #92400e; 
-            --bg-color: #f1f5f9; --card-bg: #ffffff;
-            --text-main: #1e293b; --text-muted: #64748b; 
+            --primary: #0056b3; --primary-light: #e6f2ff;
+            --success: #059669; --success-light: #ecfdf5;
+            --danger: #dc2626; --warning: #d97706; 
+            --bg-color: #f1f5f9; --text-main: #1e293b; 
         }
         
-        * { box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; padding: 10px; 
-            background: var(--bg-color);
-            color: var(--text-main); 
-            padding-bottom: 50px;
-        }
-        
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { margin: 0; padding: 10px; background: var(--bg-color); color: var(--text-main); padding-bottom: 50px;}
         .container { max-width: 600px; margin: auto; position: relative; }
-        
-        h2, h3 { color: var(--primary-dark); margin-top: 0; font-weight: 800; }
-        .text-center { text-align: center; }
         .hidden { display: none !important; }
         .mt-15 { margin-top: 15px; }
-
-        /* TOAST NOTIFICATION (Replaces Alerts) */
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1f2937; color: #fff; padding: 12px 24px; border-radius: 30px; font-weight: bold; font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 9999; display: none; text-align: center; width: max-content; max-width: 90%;}
+        
+        /* TOAST NOTIFICATION */
+        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1f2937; color: #fff; padding: 12px 24px; border-radius: 30px; font-weight: bold; font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 99999; display: none; text-align: center; width: max-content;}
 
         /* --- TOP NAVIGATION BAR --- */
-        .top-nav { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 15px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #e2e8f0;}
-        .nav-logo { font-size: 18px; font-weight: 900; color: var(--primary-dark); display: flex; align-items: center; gap: 6px;}
-        .nav-buttons { display: flex; gap: 8px; align-items: center;}
-        .nav-btn { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;}
-        .nav-btn.about { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
-        .nav-btn.admin { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #e2e8f0; flex-wrap: wrap; gap:10px;}
+        .nav-logo { font-size: 16px; font-weight: bold; color: var(--primary); display:flex; align-items:center; gap:5px;}
+        .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap;}
+        .nav-btn { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;}
+        .nav-btn.danger { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+        .nav-btn.success { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
 
-        /* --- CARDS & SCREENS --- */
-        .auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 75vh; padding: 10px 0; }
-        .card { background: #fff; padding: 20px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); border: 1px solid #e2e8f0;}
-        .auth-card { background: #fff; width: 100%; max-width: 400px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); overflow: hidden; border: 1px solid #e2e8f0;}
+        /* --- CARDS & FORMS --- */
+        .card { background: #fff; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;}
+        .card-header { font-size: 16px; font-weight: bold; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; text-transform: uppercase;}
         
-        .auth-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 30px 20px; text-align: center; color: white; }
-        .auth-logo-big { width: 70px; height: 70px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .auth-header h2 { margin: 0; color: white; font-size: 22px; }
-        .auth-header p { margin: 5px 0 0; font-size: 13px; opacity: 0.9; }
+        .input-group { margin-bottom: 15px; position: relative;}
+        .input-group label { display: block; font-size: 11px; font-weight: bold; color: #64748b; margin-bottom: 5px; text-transform: uppercase;}
+        .input-group input, .input-group select { width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; font-weight: bold; outline: none; background: #f8fafc; color: #1e293b;}
+        .input-group input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(37,99,235,0.1);}
         
-        .auth-body { padding: 25px; }
-        .auth-input-wrapper { position: relative; margin-bottom: 15px; }
-        .auth-input-wrapper input, .auth-input-wrapper select, .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 14px 14px 42px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; color: var(--text-main); font-weight: bold; background: #f8fafc; outline: none; transition: 0.2s; box-sizing: border-box;}
-        .form-group input, .form-group select, .form-group textarea { padding-left: 14px; background: #fff; } 
-        .auth-input-wrapper input:focus, .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); background: #fff; }
-        .auth-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #94a3b8; z-index: 2;}
-
-        .btn { border: none; border-radius: 12px; font-size: 15px; font-weight: bold; width: 100%; cursor: pointer; color: white; padding: 14px; margin-bottom: 10px; text-transform: uppercase;}
-        .btn-primary { background: var(--primary); box-shadow: 0 4px 0 var(--primary-dark); }
-        .btn-primary:active { transform: translateY(4px); box-shadow: 0 0px 0 var(--primary-dark); }
-        .btn-success { background: var(--success); box-shadow: 0 4px 0 var(--success-dark); }
-        .btn-success:active { transform: translateY(4px); box-shadow: 0 0px 0 var(--success-dark); }
-        .btn-danger { background: var(--danger); box-shadow: 0 4px 0 var(--danger-dark); }
-        .btn-danger:active { transform: translateY(4px); box-shadow: 0 0px 0 var(--danger-dark); }
-        .btn-warning { background: var(--warning); color: #fff; box-shadow: 0 4px 0 var(--warning-dark); }
-        .btn-warning:active { transform: translateY(4px); box-shadow: 0 0px 0 var(--warning-dark); }
-
-        .link-btn { background: none; border: none; color: var(--primary-dark); font-size: 14px; font-weight: bold; cursor: pointer; text-decoration: underline;}
-
-        .auto-save-badge { background: #d1fae5; color: #065f46; font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: bold; display: inline-block; opacity: 0; transition: opacity 0.3s; border: 1px solid #a7f3d0;}
-
-        .form-group { margin-bottom: 15px; }
-        .form-group label { font-weight: bold; display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-muted); text-transform: uppercase;}
-
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        
-        .header-bar { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); margin-bottom: 20px; font-size: 15px; font-weight: bold; border-left: 6px solid var(--primary); border: 1px solid #e2e8f0; border-left-width: 6px;}
-        
-        .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin: 0 0 15px 0; }
-        .section-title { font-size: 16px; font-weight: bold; color: var(--primary-dark); margin: 0; text-transform: uppercase;}
-        
-        .profile-view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;}
-        .profile-view-grid span { font-weight: bold; color: #0f172a; display: block; margin-top: 2px; font-size: 15px;}
 
-        /* --- SITE SELECTOR --- */
-        .site-selector-row { display: flex; gap: 8px;}
-        .site-selector-row select { flex: 1; padding: 10px; border-radius: 8px; border: 2px solid #bfdbfe; font-weight: bold; color: var(--primary-dark); font-size: 14px; outline:none; background:#fff;}
+        /* BUTTONS */
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; color: #fff; cursor: pointer; margin-bottom: 10px; text-transform: uppercase;}
+        .btn-primary { background: var(--primary); }
+        .btn-success { background: var(--success); }
+        .btn-danger { background: var(--danger); }
+        .btn-warning { background: var(--warning); }
+        .link-btn { background: none; border: none; color: var(--primary); font-size: 13px; font-weight: bold; cursor: pointer; text-decoration: underline; width:100%; text-align:center; padding:10px 0;}
+
+        /* --- SALARY SLIP (Enhanced Design) --- */
+        .slip-card { background: #fff; border-top: 8px solid var(--primary); border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;}
+        .slip-company { font-size: 20px; font-weight: 900; color: var(--primary); text-align: center; margin: 0 0 5px 0; text-transform: uppercase;}
+        .slip-location { text-align: center; font-size: 12px; font-weight: bold; color: #64748b; margin-bottom: 10px; text-transform: uppercase;}
+        .slip-month { text-align: center; font-size: 13px; font-weight: bold; color: var(--primary); border-bottom: 1px dashed #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;}
+        
+        .slip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 13px; margin-bottom: 20px;}
+        .slip-grid b { color: #64748b; font-size: 11px; display:block; margin-bottom:2px;}
+        .slip-grid span { font-weight: bold; color: #0f172a; display: block; font-size: 14px;}
+        
+        .slip-rates { display: flex; justify-content: space-between; background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e2e8f0;}
+        .slip-rates div { width: 48%; display:flex; align-items:center; justify-content:center; gap:5px;}
+        .slip-rates b { font-size: 12px; color: #475569;}
+        .slip-rates span { font-size: 14px; font-weight: bold; color: var(--success);}
+        .slip-rates .ot-rate { color: var(--primary); }
+
+        .calc-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 15px;}
+        .calc-table th, .calc-table td { padding: 12px 5px; border-bottom: 1px solid #f1f5f9; text-align: left;}
+        .calc-table th { color: #64748b; font-size: 11px; text-transform: uppercase;}
+        .calc-table td:nth-child(2) { font-weight: bold; color: #1e293b; }
+        .calc-table td:last-child { text-align: right; font-weight: bold; color: #1e293b;}
+        
+        .row-blue td { color: var(--primary) !important; font-weight: bold;}
+        .row-red td { color: var(--danger) !important; font-weight: bold;}
+        .total-row { font-size: 15px; font-weight: bold; color: var(--success); background: #ecfdf5;}
+        .total-row td { border-top: 2px solid var(--success) !important; color: var(--success) !important; padding: 15px 5px;}
 
         /* --- ATTENDANCE CALENDAR --- */
-        .attendance-list { display: flex; flex-direction: column; gap: 10px; max-height: 450px; overflow-y: auto; padding-right: 5px; }
-        .day-row { background: #fff; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 10px;}
+        .day-row { background: #fff; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 10px;}
+        .day-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 10px;}
+        .day-date { font-weight: bold; font-size: 14px; color: #1e293b;}
+        .day-name { font-size: 11px; font-weight: bold; background: #f1f5f9; color: #64748b; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;}
         
-        .day-header { display: flex; justify-content: space-between; align-items:center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;}
-        .date-text { font-weight: bold; color: #1e293b; font-size: 15px; }
-        .day-text { font-weight: bold; color: var(--primary); font-size: 12px; text-transform: uppercase; background: #e0e7ff; padding: 2px 8px; border-radius: 6px;}
-
-        .day-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-        .att-btns { display: flex; background: #f1f5f9; border-radius: 10px; padding: 3px; gap: 3px; flex: 1; border: 1px solid #e2e8f0;}
-        .att-btns button { flex: 1; padding: 10px 2px; border: none; background: transparent; cursor: pointer; font-weight: bold; font-size: 14px; color: #94a3b8; border-radius: 8px;}
+        .day-actions { display: flex; justify-content: space-between; gap: 10px; align-items:center;}
+        .btn-group { display: flex; flex: 2; background: #f8fafc; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; padding:3px; gap:3px;}
+        .btn-group button { flex: 1; padding: 10px 0; border: none; background: transparent; font-weight: bold; color: #94a3b8; border-radius:6px; cursor: pointer;}
         
-        .active-P { background: var(--success) !important; color: white !important; box-shadow: 0 2px 4px rgba(16,185,129,0.3);}
-        .active-A { background: var(--danger) !important; color: white !important; box-shadow: 0 2px 4px rgba(239,68,68,0.3);}
-        .active-HD { background: var(--warning) !important; color: white !important; box-shadow: 0 2px 4px rgba(245,158,11,0.3);}
-
-        .ot-box { display: flex; align-items: center; gap: 5px; background: #eff6ff; padding: 5px 10px; border-radius: 10px; border: 1px solid #bfdbfe;}
-        .ot-box label { margin: 0; color: var(--primary-dark); font-size: 12px; font-weight: bold;}
-        .ot-box input { width: 50px; padding: 6px; text-align: center; font-weight: bold; font-size: 14px; border: none; border-radius: 6px; color: var(--primary-dark); background: #fff; outline:none;}
-
-        /* --- SALARY SLIP --- */
-        .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border-radius: 8px; overflow: hidden;}
-        .admin-table th, .admin-table td { border: 1px solid #e2e8f0; padding: 10px; text-align: center;}
-        .admin-table th { background: var(--primary); color: white; }
-
-        .slip-card { background: #fff; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative; overflow: hidden; border-top: 10px solid var(--primary); border-radius: 16px; border: 1px solid #e2e8f0;}
-        .slip-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px; margin-bottom: 15px;}
-        .slip-header h3 { font-size: 20px; color: #0f172a; font-weight: 900; margin-bottom: 4px; text-transform: uppercase;}
+        .active-P { background: var(--success) !important; color: white !important; box-shadow: 0 2px 4px rgba(5,150,105,0.2);}
+        .active-A { background: var(--danger) !important; color: white !important; box-shadow: 0 2px 4px rgba(220,38,38,0.2);}
+        .active-HD { background: var(--warning) !important; color: white !important; box-shadow: 0 2px 4px rgba(217,119,6,0.2);}
         
-        .calc-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;}
-        .calc-table th, .calc-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
-        .calc-table th { background: #f8fafc; color: #475569; font-weight: bold; text-transform: uppercase; font-size: 11px;}
-        .total-row { font-size: 15px; font-weight: bold; color: #065f46; background: #ecfdf5; border-top: 2px solid #10b981;}
-        .declaration-text { font-size: 11px; color: #94a3b8; margin-top: 15px; font-style: italic; border-top: 1px dashed #e2e8f0; padding-top: 10px;}
+        .ot-box { flex: 1; display: flex; align-items: center; background: #fff; padding: 4px; border-radius: 8px; border: 1px solid #bfdbfe;}
+        .ot-box label { font-size: 11px; font-weight: bold; color: var(--primary); margin: 0 5px;}
+        .ot-box input { width: 100%; padding: 6px; text-align: center; font-weight: bold; border: 1px solid #e2e8f0; border-radius: 4px; outline:none; background:#f8fafc; color:var(--primary);}
+        .ot-box input:focus { border-color: var(--primary); background:#fff;}
 
+        /* --- CUSTOM MODAL --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.8); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+        .modal-box { background: white; padding: 25px; border-radius: 20px; width: 90%; max-width: 320px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2);}
+        .modal-msg { font-size: 16px; font-weight: bold; color: #1e293b; margin-bottom: 20px; line-height:1.4;}
+        .modal-input { width: 100%; padding: 14px; border: 2px solid #bfdbfe; border-radius: 10px; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 20px; outline:none;}
+        .modal-input:focus { border-color: var(--primary); }
+
+        .print-only { display: none; }
+
+        /* --- PDF / PRINT FIX --- */
         @media print {
-            body { background: white; padding: 0;}
-            .top-nav, .no-print { display: none !important; }
-            .container { padding-top: 0; }
-            .slip-card { box-shadow: none !important; border: 2px solid #000; border-top: 6px solid #000; margin: 0;}
+            body { background: white; padding: 0; margin: 0; color: #000; font-family: Arial, sans-serif;}
+            .top-nav, .no-print, .admin-corner-btn, #toast, .modal-overlay, .btn { display: none !important; }
+            .container { padding: 0; margin: 0; max-width: 100%; width: 100%;}
+            
+            .card { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 0 !important; }
+            .slip-card { border: 2px solid #000 !important; border-top: 8px solid #000 !important; padding: 20px !important; margin-bottom: 30px !important; border-radius: 0 !important; page-break-after: auto; }
+            
+            #attendanceCard { display: block !important; border: 2px solid #000 !important; padding: 15px !important; border-radius: 0 !important; margin-top: 20px !important; page-break-before: auto;}
+            .attendance-list { max-height: none !important; overflow: visible !important; display: block !important;}
+            
+            .day-row { border: none !important; border-bottom: 1px solid #ccc !important; padding: 8px 5px !important; margin-bottom: 0 !important; border-radius: 0 !important; page-break-inside: avoid; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; background: transparent !important; box-shadow: none !important;}
+            .day-row:last-child { border-bottom: none !important; }
+            .day-header { border: none !important; padding: 0 !important; margin: 0 !important; width: 40%; display: flex; gap: 10px; align-items: center;}
+            
+            .date-text { font-size: 14px !important; color: #000 !important; }
+            .day-text { font-size: 12px !important; color: #555 !important; background: transparent !important; padding: 0 !important;}
+            
+            .day-actions { display: none !important; } 
+            .print-only { display: block !important; font-size: 14px; font-weight: bold; text-align: right; width: 60%; color: #000 !important;}
         }
     </style>
 </head>
@@ -138,214 +132,153 @@
 
 <div id="toast">Message</div>
 
+<div id="customModal" class="modal-overlay hidden no-print">
+    <div class="modal-box">
+        <div id="modalMsg" class="modal-msg">Message</div>
+        <input type="text" id="modalInput" class="modal-input hidden" autocomplete="off">
+        <div style="display:flex; gap:10px;">
+            <button id="modalCancel" class="btn btn-danger hidden" style="margin:0; padding:12px;">Cancel</button>
+            <button id="modalOk" class="btn btn-primary" style="margin:0; padding:12px;">OK</button>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="top-nav no-print">
-        <div class="nav-logo">🏗️ <span data-en="SmartLabor" data-hi="स्मार्ट लेबर">SmartLabor</span></div>
+        <div class="nav-logo">🏗️ SmartLabor</div>
         <div class="nav-buttons">
-            <button class="nav-btn" onclick="toggleLanguage()">🌐 <span id="langLabel">हिंदी</span></button>
-            <button class="nav-btn about" onclick="showScreen('screenAbout')" data-en="About" data-hi="परिचय">About</button>
-            <button class="nav-btn admin" onclick="showScreen('screenAdminLogin')">🔒 Admin</button>
+            <button class="nav-btn" id="btnLangToggle">🌐 <span id="langLabel">हिंदी</span></button>
+            <button class="nav-btn success" id="btnBackup" data-en="💾 Backup" data-hi="💾 बैकअप">💾 Backup</button>
+            <button class="nav-btn danger" id="btnTopAdmin">🔒 Admin</button>
         </div>
     </div>
 
     <div id="screenAbout" class="screen hidden auth-wrapper">
-        <div class="auth-card">
-            <div class="auth-header" style="background: linear-gradient(135deg, #10b981, #047857);">
-                <div class="auth-logo-big" style="color: #10b981;">👨‍💻</div>
-                <h2 data-en="About the App" data-hi="ऐप के बारे में">About the App</h2>
+        <div class="card" style="width:100%;">
+            <div class="card-header" style="background: linear-gradient(135deg, #10b981, #047857); color:white; padding:20px; border-radius:10px;">
+                <div style="font-size:35px; margin-bottom:10px;">👨‍💻</div>
+                <h2 data-en="About the App" data-hi="ऐप के बारे में" style="margin:0; color:white;">About the App</h2>
             </div>
-            <div class="auth-body" style="text-align:center;">
+            <div style="text-align:center; padding:20px;">
                 <h3 style="color:var(--text-main); font-size:15px; margin-bottom:5px;" data-en="Developed By:" data-hi="निर्माता:">Developed By:</h3>
                 <h2 style="color:var(--primary); font-size:20px; text-transform:uppercase; margin-bottom:15px;" data-en="SANTOSH CHAUDHARY" data-hi="संतोष चौधरी">SANTOSH CHAUDHARY</h2>
                 <hr style="border:0; border-top:1px dashed #e2e8f0; margin-bottom:15px;">
-                <button class="btn" style="background: #64748b; box-shadow: 0 4px 0 #334155; padding:12px;" type="button" onclick="showScreen('screenLogin')" data-en="← Back" data-hi="← वापस">← Back</button>
+                <button class="btn" id="btnAboutBack" style="background: #64748b; box-shadow: 0 4px 0 #334155;" data-en="← Back" data-hi="← वापस">← Back</button>
             </div>
         </div>
     </div>
 
     <div id="screenLogin" class="screen auth-wrapper">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="auth-logo-big">🏗️</div>
-                <h2 data-en="Labor Manager" data-hi="श्रम प्रबंधन ऐप">Labor Manager</h2>
+        <div class="card" style="width:100%;">
+            <div style="text-align:center; font-size:50px; margin-bottom:10px;">👤</div>
+            <div class="card-header" data-en="Labor Manager" data-hi="लेबर मैनेजर">Labor Manager</div>
+            <div class="input-group">
+                <input type="tel" id="loginId" placeholder="Mobile Number" maxlength="10">
             </div>
-            <div class="auth-body">
-                <div class="auth-input-wrapper">
-                    <span class="auth-icon">📱</span>
-                    <input type="tel" id="loginId" data-en-place="Mobile Number" data-hi-place="मोबाइल नंबर" placeholder="Mobile Number" maxlength="10">
-                </div>
-                <div class="auth-input-wrapper">
-                    <span class="auth-icon">🔒</span>
-                    <input type="password" id="loginPin" data-en-place="4-Digit PIN" data-hi-place="4-अंकों का पिन" placeholder="4-Digit PIN" maxlength="4">
-                </div>
-                <button class="btn btn-primary" type="button" onclick="loginUser()" data-en="Login" data-hi="लॉग इन करें">Login</button>
-                <div style="display:flex; justify-content:space-between; margin-top:15px;">
-                    <button class="link-btn" type="button" onclick="showScreen('screenRegister')" data-en="Create Account" data-hi="नया अकाउंट">Create Account</button>
-                    <button class="link-btn" type="button" onclick="showScreen('screenResetPin')" data-en="Forgot PIN?" data-hi="पिन भूल गए?">Forgot PIN?</button>
-                </div>
+            <div class="input-group">
+                <input type="password" id="loginPin" placeholder="4-Digit PIN" maxlength="4">
             </div>
+            <button class="btn btn-primary" id="btnLogin">LOGIN</button>
+            <div class="grid-2 mt-15">
+                <button class="btn" id="btnGoToRegister" style="background:#f1f5f9; color:#475569; font-size:12px; padding:10px;" data-en="Create Account" data-hi="नया अकाउंट">Create Account</button>
+                <button class="btn" id="btnGoToReset" style="background:#f1f5f9; color:#475569; font-size:12px; padding:10px;" data-en="Forgot PIN?" data-hi="पिन भूल गए?">Forgot PIN?</button>
+            </div>
+            <button class="link-btn mt-15" id="btnRestoreData" data-en="📂 Restore Backup Data" data-hi="📂 पुराना डाटा वापस लाएं">📂 Restore Backup Data</button>
         </div>
     </div>
 
     <div id="screenAdminLogin" class="screen auth-wrapper hidden">
-        <div class="auth-card">
-            <div class="auth-header" style="background: linear-gradient(135deg, #dc2626, #991b1b);">
-                <div class="auth-logo-big" style="color: #dc2626;">🛡️</div>
-                <h2 data-en="Super Admin" data-hi="सुपर एडमिन">Super Admin</h2>
-            </div>
-            <div class="auth-body">
-                <div class="auth-input-wrapper">
-                    <span class="auth-icon">👤</span>
-                    <input type="text" id="adminIdInput" placeholder="Admin ID">
-                </div>
-                <div class="auth-input-wrapper">
-                    <span class="auth-icon">🔒</span>
-                    <input type="password" id="adminPinInput" placeholder="Admin PIN">
-                </div>
-                <button class="btn btn-danger" type="button" onclick="superAdminLogin()" data-en="Admin Login" data-hi="एडमिन लॉगिन">Admin Login</button>
-                <div class="text-center mt-15">
-                    <button class="link-btn" style="color: #64748b;" type="button" onclick="showScreen('screenLogin')" data-en="← Back to Login" data-hi="← वापस">← Back to Login</button>
-                </div>
-            </div>
+        <div class="card" style="width:100%; border: 2px solid var(--danger);">
+            <div class="card-header" style="color:var(--danger);" data-en="Super Admin" data-hi="सुपर एडमिन">Super Admin</div>
+            <div class="input-group"><input type="text" id="adminIdInput" placeholder="Admin ID"></div>
+            <div class="input-group"><input type="password" id="adminPinInput" placeholder="Admin PIN"></div>
+            <button class="btn btn-danger" id="btnAdminLogin">ADMIN LOGIN</button>
+            <button class="link-btn" id="btnAdminReset">Reset Admin PIN?</button>
+            <button class="link-btn mt-15" id="btnAdminCancel" style="color:#64748b;" data-en="← Back" data-hi="← वापस">← Back</button>
         </div>
     </div>
 
     <div id="screenRegister" class="screen auth-wrapper hidden">
-        <div class="auth-card">
-            <div class="auth-header" style="background: linear-gradient(135deg, #10b981, #047857);">
-                <div class="auth-logo-big" style="color: #10b981;">👷‍♂️</div>
-                <h2 data-en="Create Account" data-hi="नया अकाउंट">Create Account</h2>
+        <div class="card" style="width:100%;">
+            <div class="card-header" style="color:var(--success);" data-en="Create Account" data-hi="नया अकाउंट">Create Account</div>
+            <div class="input-group">
+                <label>Select Role</label>
+                <select id="regRole">
+                    <option value="Labor">Labor / लेबर</option>
+                    <option value="Supervisor">Supervisor / सुपरवाइजर</option>
+                    <option value="Contractor">Contractor / ठेकेदार</option>
+                </select>
             </div>
-            <div class="auth-body">
-                <div class="auth-input-wrapper">
-                    <span class="auth-icon">⚙️</span>
-                    <select id="regRole">
-                        <option value="Labor" data-en="Labor (Member)" data-hi="लेबर (Member)">Labor (Member)</option>
-                        <option value="Supervisor" data-en="Supervisor" data-hi="सुपरवाइजर">Supervisor</option>
-                        <option value="Engineer" data-en="Engineer" data-hi="इंजीनियर">Engineer</option>
-                        <option value="Contractor" data-en="Contractor" data-hi="ठेकेदार">Contractor</option>
-                    </select>
-                </div>
-                <div class="auth-input-wrapper"><span class="auth-icon">👤</span><input type="text" id="regName" data-en-place="Full Name" data-hi-place="पूरा नाम" placeholder="Full Name"></div>
-                <div class="auth-input-wrapper"><span class="auth-icon">📱</span><input type="tel" id="regMobile" data-en-place="10-Digit Mobile" data-hi-place="10 अंकों का मोबाइल" placeholder="10-Digit Mobile" maxlength="10"></div>
-                <div class="auth-input-wrapper"><span class="auth-icon">🔑</span><input type="password" id="regPin" data-en-place="Set 4-Digit PIN" data-hi-place="नया 4 अंकों का पिन" placeholder="Set 4-Digit PIN" maxlength="4"></div>
-                
-                <button class="btn btn-success" type="button" onclick="registerUser()" data-en="Register Now" data-hi="रजिस्टर करें">Register Now</button>
-                <div class="text-center mt-15"><button class="link-btn" style="color: #047857;" type="button" onclick="showScreen('screenLogin')" data-en="← Back to Login" data-hi="← वापस">← Back to Login</button></div>
-            </div>
+            <div class="input-group"><input type="text" id="regName" placeholder="Full Name"></div>
+            <div class="input-group"><input type="tel" id="regMobile" maxlength="10" placeholder="Mobile Number"></div>
+            <div class="input-group"><input type="number" id="regPin" maxlength="4" placeholder="Create 4-Digit PIN"></div>
+            
+            <button class="btn btn-success" id="btnRegister">REGISTER</button>
+            <button class="link-btn mt-15" id="btnRegCancel" style="color:#64748b;">← Cancel</button>
         </div>
     </div>
 
     <div id="screenResetPin" class="screen auth-wrapper hidden">
-        <div class="auth-card">
-            <div class="auth-header" style="background: linear-gradient(135deg, #f59e0b, #b45309);">
-                <div class="auth-logo-big" style="color: #f59e0b;">❓</div>
-                <h2 data-en="Reset PIN" data-hi="पिन बदलें">Reset PIN</h2>
-            </div>
-            <div class="auth-body">
-                <div class="auth-input-wrapper"><span class="auth-icon">📱</span><input type="tel" id="resetMobile" data-en-place="Registered Mobile" data-hi-place="रजिस्टर मोबाइल" placeholder="Registered Mobile" maxlength="10"></div>
-                <div class="auth-input-wrapper"><span class="auth-icon">🔑</span><input type="password" id="resetNewPin" data-en-place="New 4-Digit PIN" data-hi-place="नया 4 अंकों का पिन" placeholder="New 4-Digit PIN" maxlength="4"></div>
-                
-                <button class="btn btn-warning" type="button" onclick="resetMemberPinAction()" data-en="Update PIN" data-hi="पिन अपडेट करें">Update PIN</button>
-                <div class="text-center mt-15"><button class="link-btn" style="color: #b45309;" type="button" onclick="showScreen('screenLogin')" data-en="← Cancel" data-hi="← रद्द करें">← Cancel</button></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="screenAddMember" class="screen auth-wrapper hidden">
-        <div class="auth-card">
-            <div class="auth-header" style="background: linear-gradient(135deg, #10b981, #047857);">
-                <div class="auth-logo-big" style="color: #10b981;">➕</div>
-                <h2 data-en="Add Member" data-hi="नया मेंबर">Add Member</h2>
-            </div>
-            <div class="auth-body">
-                <div class="auth-input-wrapper"><span class="auth-icon">👤</span><input type="text" id="addMemName" data-en-place="Name" data-hi-place="नाम" placeholder="Name"></div>
-                <div class="auth-input-wrapper"><span class="auth-icon">📱</span><input type="tel" id="addMemMobile" data-en-place="Mobile" data-hi-place="मोबाइल" placeholder="Mobile" maxlength="10"></div>
-                <div class="auth-input-wrapper"><span class="auth-icon">🔑</span><input type="password" id="addMemPin" data-en-place="4-Digit PIN" data-hi-place="4 अंकों का पिन" placeholder="4-Digit PIN" maxlength="4"></div>
-                
-                <button class="btn btn-success" type="button" onclick="addLaborByManagerAction()" data-en="Save" data-hi="सेव करें">Save</button>
-                <div class="text-center mt-15"><button class="link-btn" style="color: #047857;" type="button" onclick="showScreen('screenDash')" data-en="← Cancel" data-hi="← रद्द करें">← Cancel</button></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="screenAddSite" class="screen auth-wrapper hidden">
-        <div class="auth-card">
-            <div class="auth-header" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">
-                <div class="auth-logo-big" style="color: #2563eb;">🏢</div>
-                <h2 data-en="Add New Site" data-hi="नई साइट">Add New Site</h2>
-            </div>
-            <div class="auth-body">
-                <div class="auth-input-wrapper"><span class="auth-icon">🏢</span><input type="text" id="addSiteName" data-en-place="Site Name" data-hi-place="साइट का नाम" placeholder="Site Name"></div>
-                <button class="btn btn-primary" type="button" onclick="addNewSiteAction()" data-en="Save Site" data-hi="सेव करें">Save Site</button>
-                <div class="text-center mt-15"><button class="link-btn" type="button" onclick="showScreen('screenApp')" data-en="← Cancel" data-hi="← रद्द करें">← Cancel</button></div>
-            </div>
+        <div class="card" style="width:100%;">
+            <div class="card-header" style="color:var(--warning);" data-en="Reset PIN" data-hi="पिन बदलें">Reset PIN</div>
+            <div class="input-group"><input type="tel" id="resetMobile" placeholder="Registered Mobile" maxlength="10"></div>
+            <div class="input-group"><input type="password" id="resetNewPin" placeholder="New 4-Digit PIN" maxlength="4"></div>
+            
+            <button class="btn btn-warning" id="btnResetUpdate" data-en="Update PIN" data-hi="पिन अपडेट करें">Update PIN</button>
+            <button class="link-btn mt-15" id="btnResetCancel" style="color:#64748b;" data-en="← Cancel" data-hi="← रद्द करें">← Cancel</button>
         </div>
     </div>
 
     <div id="screenDash" class="screen hidden no-print">
-        <div class="header-bar">
-            <span>🛡️ <b id="dashTitle">Dash</b></span>
-            <button class="btn btn-danger" type="button" style="width: auto; padding: 6px 12px; font-size: 12px; margin:0;" onclick="logout()" data-en="LOGOUT" data-hi="लॉग आउट">LOGOUT</button>
-        </div>
         <div class="card">
-            <button class="btn btn-success" type="button" onclick="showScreen('screenAddMember')" data-en="+ Add New Member" data-hi="+ नया मेंबर जोड़ें">+ Add New Member</button>
-            <h3 style="margin-top: 15px; text-align:left; font-size:15px;" data-en="Registered Members" data-hi="रजिस्टर मेंबर्स">Registered Members</h3>
-            <div style="overflow-x: auto;">
-                <table class="admin-table">
-                    <thead><tr>
-                        <th data-en="Name" data-hi="नाम">Name</th>
-                        <th data-en="Role" data-hi="रोल">Role</th>
-                        <th data-en="Action" data-hi="एक्शन">Action</th>
-                    </tr></thead>
-                    <tbody id="adminTableBody"></tbody>
-                </table>
-            </div>
+            <div class="card-header" id="dashTitle" style="margin-bottom:20px;">Dashboard</div>
+            <button class="btn btn-success" id="btnDashAddMem">+ Add New Member</button>
+            <button class="btn btn-danger" id="btnDashLogout" style="padding:8px; font-size:12px; margin-top:10px;">LOGOUT</button>
+            
+            <h3 style="font-size:14px; margin-top:20px; color:#64748b;" data-en="Registered Members" data-hi="रजिस्टर मेंबर्स">Registered Members</h3>
+            <div id="adminTableBody" style="display:flex; flex-direction:column; gap:10px;"></div>
         </div>
     </div>
 
     <div id="screenApp" class="screen hidden">
-        <div class="header-bar no-print" style="padding:10px 15px;">
-            <span id="appWelcomeUser" style="color:var(--primary-dark);">👤 User</span>
-            <div style="display:flex; gap:8px; align-items:center;">
-                <span class="auto-save-badge" id="saveBadge" data-en="✓ Saved" data-hi="✓ सेव">✓ Saved</span>
-                <button id="btnHistory" class="btn btn-primary" type="button" style="width: auto; padding: 6px 10px; font-size: 11px; margin:0; box-shadow:0 3px 0 #1e3a8a;" onclick="openHistory()" data-en="📜 History" data-hi="📜 हिस्ट्री">📜 History</button>
-                <button id="btnBackToDash" class="btn btn-warning hidden" type="button" style="width: auto; padding: 6px 10px; font-size: 11px; margin:0;" onclick="showScreen('screenDash')" data-en="DASH" data-hi="डैशबोर्ड">DASH</button>
-                <button id="btnAppLogout" class="btn btn-danger" type="button" style="width: auto; padding: 6px 10px; font-size: 11px; margin:0;" onclick="logout()" data-en="LOGOUT" data-hi="लॉग आउट">LOGOUT</button>
+        
+        <div class="card no-print" style="padding:15px; background:var(--primary-light); border:1px solid #bfdbfe;">
+            <div style="font-weight:bold; color:var(--primary-dark); font-size:16px; margin-bottom:10px;" id="appWelcomeUser">👤 User</div>
+            
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <select id="siteSelect" style="flex:2; padding:10px; border-radius:8px; border:1px solid #bfdbfe; font-weight:bold; outline:none;"></select>
+                <button class="btn btn-success" id="btnAppNewSite" style="flex:1; margin:0; padding:10px; font-size:12px;" data-en="+ New Site" data-hi="+ नई साइट">+ New Site</button>
             </div>
-        </div>
-
-        <div class="card no-print" style="padding: 15px; background: #eff6ff; border-left: 6px solid var(--primary);">
-            <label style="font-weight:bold; color:var(--primary-dark); font-size:12px; text-transform:uppercase;" data-en="🏢 Current Site" data-hi="🏢 आपकी साइट">🏢 Current Site</label>
-            <div class="site-selector-row" style="margin-top:8px;">
-                <select id="siteSelect" onchange="switchSite()"></select>
-                <button class="btn btn-success" style="width:auto; padding:8px 12px; margin:0; font-size:12px;" onclick="showScreen('screenAddSite')" data-en="+ Add" data-hi="+ नई">+ Add</button>
-            </div>
-        </div>
-
-        <div class="card no-print" style="padding: 15px;">
+            
             <div class="grid-2">
-                <select id="monthSelect" style="padding: 12px; border-radius:8px; border:1px solid #cbd5e1; font-weight:bold; background:#f8fafc;" onchange="renderApp()"></select>
-                <input type="number" id="yearInput" style="padding: 12px; border-radius:8px; border:1px solid #cbd5e1; font-weight:bold; text-align:center; background:#f8fafc;" value="2026" onchange="renderApp()">
+                <select id="monthSelect" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1; font-weight:bold; outline:none;"></select>
+                <input type="number" id="yearInput" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1; font-weight:bold; text-align:center; outline:none;" value="2026">
             </div>
+
+            <div class="grid-2" style="margin-top:15px;">
+                <button class="btn btn-primary" id="btnAppHistory" style="margin:0; padding:10px; font-size:12px;" data-en="📜 History" data-hi="📜 हिस्ट्री">📜 History</button>
+                <button class="btn btn-danger" id="btnAppLogout" style="margin:0; padding:10px; font-size:12px;" data-en="Logout" data-hi="लॉग आउट">Logout</button>
+            </div>
+            <button id="btnAppDash" class="btn btn-warning hidden" style="margin-top:10px; padding:10px; font-size:12px;">Back to Dashboard</button>
         </div>
 
-        <div class="card slip-card">
-            <div class="slip-header">
-                <h3 id="slipCompanyHeading">Company Name</h3>
-                <span style="font-weight: bold; color: #64748b; font-size:13px;"><span data-en="Salary Slip:" data-hi="सैलरी स्लिप:">Salary Slip:</span> <span id="cardMonth" style="color:#1d4ed8;">Month 2026</span></span>
+        <div class="slip-card" id="slipBox">
+            <div class="slip-company" id="slipCompanyHeading">COMPANY NAME</div>
+            <div class="slip-location" id="slipCompanyLocation">Location</div>
+            <div class="slip-month"><span data-en="Salary Slip:" data-hi="सैलरी स्लिप:">Salary Slip:</span> <span id="cardMonth">Month 2026</span></div>
+            
+            <div class="slip-grid">
+                <div><b data-en="NAME:" data-hi="नाम:">NAME:</b> <span id="cardName">-</span></div>
+                <div><b data-en="MOBILE:" data-hi="मोबाइल:">MOBILE:</b> <span id="cardMobile">-</span></div>
+                <div><b data-en="LABOR ID:" data-hi="लेबर ID:">LABOR ID:</b> <span id="cardId">-</span></div>
+                <div><b data-en="DESIGNATION:" data-hi="पद:">DESIGNATION:</b> <span id="cardDesignation">-</span></div>
+                <div><b data-en="ROLE:" data-hi="रोल:">ROLE:</b> <span id="cardRole">-</span></div>
+                <div><b data-en="JOINING:" data-hi="जॉइनिंग:">JOINING:</b> <span id="cardJoinDate">-</span></div>
             </div>
             
-            <div class="profile-view-grid" style="margin-bottom: 20px; border:none; background:transparent; padding:0; gap:8px; border-bottom:1px solid #f1f5f9; padding-bottom:15px;">
-                <div><b style="color:#64748b; font-size:10px;" data-en="NAME:" data-hi="नाम:">NAME:</b> <span id="cardName" style="font-size:13px; margin-top:0;">-</span></div>
-                <div><b style="color:#64748b; font-size:10px;" data-en="MOBILE:" data-hi="मोबाइल:">MOBILE:</b> <span id="cardMobile" style="font-size:13px; margin-top:0;">-</span></div>
-                <div><b style="color:#64748b; font-size:10px;" data-en="ID:" data-hi="आईडी:">ID:</b> <span id="cardId" style="font-size:13px; margin-top:0;">-</span></div>
-                <div><b style="color:#64748b; font-size:10px;" data-en="ROLE:" data-hi="रोल:">ROLE:</b> <span id="cardRole" style="font-size:13px; margin-top:0;">-</span></div>
-            </div>
-            
-            <div class="grid-2" style="margin-bottom: 20px; font-size: 13px; background: #f8fafc; padding: 12px; border-radius: 8px; border:1px solid #e2e8f0;">
-                <div><b style="color:#475569;" data-en="Daily Wage:" data-hi="1 दिन की दिहाड़ी:">Daily Wage:</b> <span style="color:#059669; font-weight:bold; display:block; font-size:15px;">₹<span id="cardDaily">0</span></span></div>
-                <div><b style="color:#475569;" data-en="OT Rate (Hr):" data-hi="OT रेट (घंटा):">OT Rate (Hr):</b> <span style="color:#2563eb; font-weight:bold; display:block; font-size:15px;">₹<span id="cardHrRate">0</span></span></div>
+            <div class="slip-rates">
+                <div><b data-en="Daily Wage:" data-hi="1 दिन की दिहाड़ी:">Daily Wage:</b> <span id="cardDaily" style="color:var(--primary);">₹0</span></div>
+                <div style="border-left:1px solid #bfdbfe; padding-left:15px;"><b data-en="OT Rate (Hr):" data-hi="OT रेट (घंटा):">OT Rate (Hr):</b> <span id="cardHrRate" class="ot-rate">₹0</span></div>
             </div>
 
             <table class="calc-table">
@@ -356,651 +289,830 @@
                 </tr>
                 <tr>
                     <td data-en="Present (P)" data-hi="उपस्थित (P)">Present (P)</td>
-                    <td style="font-weight:bold;"><span id="c-P">0</span></td>
-                    <td id="c-PAmt" style="font-weight:bold;">₹0</td>
+                    <td><span id="cP">0</span> <span style="font-size:10px; color:#64748b;" data-en="Days" data-hi="दिन">Days</span></td>
+                    <td id="cPAmt">₹0</td>
+                </tr>
+                <tr class="row-red">
+                    <td data-en="Absent (A)" data-hi="अनुपस्थित (A)">Absent (A)</td>
+                    <td><span id="cA">0</span> <span style="font-size:10px; color:#64748b;" data-en="Days" data-hi="दिन">Days</span></td>
+                    <td id="cAAmt">₹0</td>
                 </tr>
                 <tr>
                     <td data-en="Half Day (HD)" data-hi="हाफ डे (HD)">Half Day (HD)</td>
-                    <td style="font-weight:bold;"><span id="c-HD">0</span></td>
-                    <td id="c-HDAmt" style="font-weight:bold;">₹0</td>
+                    <td><span id="cHD">0</span> <span style="font-size:10px; color:#64748b;" data-en="Days" data-hi="दिन">Days</span></td>
+                    <td id="cHDAmt">₹0</td>
                 </tr>
-                <tr>
+                <tr class="row-blue">
                     <td data-en="Overtime (OT)" data-hi="ओवरटाइम (OT)">Overtime (OT)</td>
-                    <td style="font-weight:bold; color:#2563eb;"><span id="c-OT">0</span></td>
-                    <td id="c-OTAmt" style="font-weight:bold; color:#2563eb;">₹0</td>
+                    <td><span id="cOT">0</span> <span style="font-size:10px; color:#64748b;" data-en="Hours" data-hi="घंटे">Hours</span></td>
+                    <td id="cOTAmt">₹0</td>
                 </tr>
-                <tr>
-                    <td style="color:#dc2626; font-weight:bold;" data-en="Advance Cut" data-hi="एडवांस काटा">Advance Cut</td>
-                    <td colspan="2" style="color:#dc2626; font-weight:bold; text-align:right;" id="c-Adv">- ₹0</td>
+                <tr class="row-red">
+                    <td data-en="Advance Deducted" data-hi="एडवांस काटा गया">Advance Deducted</td>
+                    <td colspan="2" id="cAdv">- ₹0</td>
                 </tr>
                 <tr class="total-row">
-                    <td data-en="NET PAY" data-hi="कुल देय">NET PAY</td>
-                    <td colspan="2" style="text-align:right; font-weight:bold;" id="c-Final">₹0</td>
+                    <td data-en="FINAL NET PAY" data-hi="कुल देय राशि">FINAL NET PAY</td>
+                    <td colspan="2" id="cFinal">₹0</td>
                 </tr>
             </table>
-            <div class="declaration-text" id="slipDeclaration" data-en="Generated by Smart Labor App." data-hi="स्मार्ट लेबर ऐप द्वारा जनरेटेड।">Generated by Smart Labor App.</div>
-            <button class="btn btn-primary no-print mt-15" type="button" onclick="window.print()" style="margin-bottom: 0;" data-en="🖨️ PRINT SLIP" data-hi="🖨️ स्लिप प्रिंट करें">🖨️ PRINT SLIP</button>
+            
+            <div style="font-size:11px; font-style:italic; color:#94a3b8; margin-top:15px; border-top:1px dashed #e2e8f0; padding-top:10px;" data-en="Generated by Professional Labor App." data-hi="प्रोफेशनल लेबर ऐप द्वारा जनरेटेड।">Generated by Professional Labor App.</div>
+            <button class="btn btn-primary no-print" id="btnPrintSlip" style="margin-top:20px;" data-en="🖨️ SAVE PDF & PRINT" data-hi="🖨️ PDF सेव करें (Print)">🖨️ SAVE PDF & PRINT</button>
         </div>
 
-        <div class="card no-print" id="profileCard">
-            <div class="section-header">
-                <span class="section-title" data-en="Profile Info" data-hi="प्रोफाइल">Profile Info</span>
-                <button id="btnEditProfile" class="edit-btn hidden" type="button" onclick="toggleProfileEdit(true)" data-en="✏️ Edit" data-hi="✏️ एडिट">✏️ Edit</button>
-            </div>
-
-            <div id="profileViewSection" class="profile-view-grid hidden">
-                <div><b style="color:var(--text-muted); font-size:10px; display:block;" data-en="NAME" data-hi="नाम">NAME</b> <span id="vName" style="margin-top:0; font-size:13px;">-</span></div>
-                <div><b style="color:var(--text-muted); font-size:10px; display:block;" data-en="MOBILE" data-hi="मोबाइल">MOBILE</b> <span id="vMobile" style="margin-top:0; font-size:13px;">-</span></div>
-                <div><b style="color:var(--text-muted); font-size:10px; display:block;" data-en="COMPANY" data-hi="कंपनी">COMPANY</b> <span id="vCompany" style="margin-top:0; font-size:13px;">-</span></div>
-                <div><b style="color:var(--text-muted); font-size:10px; display:block;" data-en="JOINING" data-hi="जॉइनिंग">JOINING</b> <span id="vJoinDate" style="margin-top:0; font-size:13px;">-</span></div>
-                <div><b style="color:var(--text-muted); font-size:10px; display:block;" data-en="WAGE/DAY" data-hi="1 दिन की दिहाड़ी">WAGE/DAY</b> <span id="vDailyWage" style="color:#059669; margin-top:0; font-size:13px;">₹0</span></div>
-                <div><b style="color:var(--text-muted); font-size:10px; display:block;" data-en="ADVANCE" data-hi="एडवांस">ADVANCE</b> <span id="vAdvance" style="color:#dc2626; margin-top:0; font-size:13px;">₹0</span></div>
-            </div>
-
-            <div id="profileEditSection">
-                <div class="grid-2">
-                    <div class="form-group"><label data-en="Labor Name:" data-hi="पूरा नाम:">Labor Name:</label><input type="text" id="profName" oninput="triggerAutoSave()"></div>
-                    <div class="form-group"><label data-en="Mobile:" data-hi="मोबाइल:">Mobile:</label><input type="tel" id="profPhone" placeholder="Mobile" maxlength="10" oninput="triggerAutoSave()"></div>
+        <div class="card no-print" id="profileEditorSection">
+            <div class="card-header" style="font-size:15px; margin-bottom:10px; text-align:left; border:none; color:var(--primary);" data-en="PROFILE & COMPANY INFO" data-hi="प्रोफाइल और कंपनी की जानकारी">PROFILE & COMPANY INFO</div>
+            
+            <div class="grid-2">
+                <div class="input-group">
+                    <label data-en="Name" data-hi="नाम">Name</label>
+                    <input type="text" id="profName">
                 </div>
-                <div class="grid-2">
-                    <div class="form-group"><label data-en="Company Name:" data-hi="कंपनी का नाम:">Company Name:</label><input type="text" id="profCompany" placeholder="Company" oninput="triggerAutoSave()"></div>
-                    <div class="form-group"><label data-en="Labor ID:" data-hi="लेबर ID:">Labor ID:</label><input type="text" id="profId" placeholder="ID" oninput="triggerAutoSave()"></div>
+                <div class="input-group">
+                    <label data-en="Mobile" data-hi="मोबाइल">Mobile</label>
+                    <input type="tel" id="profPhone" disabled style="background:#e2e8f0; color:#64748b;">
                 </div>
-                <div class="grid-2">
-                    <div class="form-group"><label data-en="Wage per Day (₹):" data-hi="1 दिन का वेतन (₹):">Wage per Day (₹):</label><input type="number" id="profDailyWage" value="500" oninput="triggerAutoSave()"></div>
-                    <div class="form-group"><label data-en="Duty Hours/Day:" data-hi="रोज के घंटे:">Duty Hours/Day:</label><input type="number" id="profHours" value="8" oninput="triggerAutoSave()"></div>
-                </div>
-                <div class="form-group"><label data-en="Total Advance (₹):" data-hi="लिया एडवांस (₹):">Total Advance (₹):</label><input type="number" id="profAdvance" value="0" oninput="triggerAutoSave()"></div>
-                <button class="btn btn-success mt-15" type="button" onclick="lockProfile()" style="margin-bottom:0;" data-en="💾 Save & Lock" data-hi="💾 सेव और लॉक">💾 Save & Lock</button>
             </div>
+            <div class="grid-2">
+                <div class="input-group">
+                    <label data-en="Company Name" data-hi="कंपनी का नाम">Company Name</label>
+                    <input type="text" id="profCompany">
+                </div>
+                <div class="input-group">
+                    <label data-en="Location" data-hi="साइट का पता">Location</label>
+                    <input type="text" id="profLocation">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="input-group">
+                    <label data-en="Labor ID" data-hi="लेबर ID">Labor ID</label>
+                    <input type="text" id="profId">
+                </div>
+                <div class="input-group">
+                    <label data-en="Designation" data-hi="पद">Designation</label>
+                    <input type="text" id="profDesignation">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="input-group">
+                    <label data-en="Joining Date" data-hi="जॉइनिंग डेट">Joining Date</label>
+                    <input type="date" id="profJoinDate">
+                </div>
+                <div class="input-group">
+                    <label data-en="Advance (₹)" data-hi="लिया एडवांस (₹)">Advance (₹)</label>
+                    <input type="number" id="profAdvance" value="0">
+                </div>
+            </div>
+            
+            <div style="background:#fff7ed; padding:15px; border-radius:12px; border:1px solid #fed7aa; margin-bottom:15px;">
+                <div class="grid-2">
+                    <div class="input-group" style="margin:0;">
+                        <label style="color:#c2410c;" data-en="Wage / Day (₹)" data-hi="1 दिन की दिहाड़ी (₹)">Wage / Day (₹)</label>
+                        <input type="number" id="profDailyWage" value="0">
+                    </div>
+                    <div class="input-group" style="margin:0;">
+                        <label style="color:#c2410c;" data-en="Duty Hours" data-hi="रोज के घंटे">Duty Hours</label>
+                        <input type="number" id="profHours" value="8">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success" id="btnSaveProfile" style="padding:12px;" data-en="💾 UPDATE SETTINGS" data-hi="💾 सेटिंग सेव करें">💾 UPDATE SETTINGS</button>
         </div>
 
-        <div class="card no-print">
-            <div class="section-title" style="margin-top:0; font-size:14px;"><span data-en="Attendance Register" data-hi="हाजिरी रजिस्टर">Attendance Register</span></div>
-            <div class="attendance-list" id="attList" style="margin-top:10px;"></div>
+        <div class="card" id="attendanceCard">
+            <div class="card-header" style="font-size:15px; text-align:center; border:none; margin-bottom:15px; color:var(--primary);" data-en="ATTENDANCE REGISTER" data-hi="हाजिरी रजिस्टर">ATTENDANCE REGISTER</div>
+            <div class="attendance-list" id="attList"></div>
         </div>
     </div>
 
-    <div id="screenHistory" class="screen hidden" style="margin-top: 20px;">
-        <div class="header-bar">
-            <span>📜 <b data-en="Payment History" data-hi="पेमेंट हिस्ट्री">Payment History</b></span>
-            <button class="btn btn-warning" type="button" style="width: auto; padding: 6px 12px; font-size: 12px; margin:0;" onclick="showScreen('screenApp')" data-en="Back" data-hi="वापस">Back</button>
-        </div>
+    <div id="screenHistory" class="screen hidden no-print">
         <div class="card">
-            <h3 style="text-align:left; font-size:15px;" data-en="Saved Slips" data-hi="सेव की गई स्लिप्स">Saved Slips</h3>
-            <div id="historyList"></div>
+            <div class="card-header" data-en="Payment History" data-hi="पेमेंट हिस्ट्री">Payment History</div>
+            <button class="btn btn-warning" id="btnHistoryBack" data-en="← Back" data-hi="← वापस">← Back</button>
+            <div id="historyList" style="margin-top:20px;"></div>
         </div>
     </div>
 
+    <input type="file" id="fileInput" class="hidden no-print" accept=".json">
 </div>
 
 <script>
-    // --- 1. CORE SYSTEM (100% Solid HTML DOM, No Async/Await) ---
+    // ==========================================
+    // 1. ES5 CUSTOM MODAL (100% Safe)
+    // ==========================================
+    window.customAlert = function(msg, callback) {
+        document.getElementById('customModal').classList.remove('hidden');
+        document.getElementById('modalMsg').innerText = msg;
+        document.getElementById('modalInput').classList.add('hidden');
+        document.getElementById('modalCancel').classList.add('hidden');
+        document.getElementById('modalOk').onclick = function() {
+            document.getElementById('customModal').classList.add('hidden');
+            if(callback) callback();
+        };
+    };
+
+    window.customPrompt = function(msg, type, callback) {
+        document.getElementById('customModal').classList.remove('hidden');
+        document.getElementById('modalMsg').innerText = msg;
+        var inp = document.getElementById('modalInput');
+        inp.type = type || 'text'; inp.value = ''; inp.classList.remove('hidden');
+        document.getElementById('modalCancel').classList.remove('hidden');
+        document.getElementById('modalOk').onclick = function() {
+            document.getElementById('customModal').classList.add('hidden');
+            if(callback) callback(inp.value);
+        };
+        document.getElementById('modalCancel').onclick = function() {
+            document.getElementById('customModal').classList.add('hidden');
+            if(callback) callback(null);
+        };
+    };
+
+    window.customConfirm = function(msg, callback) {
+        document.getElementById('customModal').classList.remove('hidden');
+        document.getElementById('modalMsg').innerText = msg;
+        document.getElementById('modalInput').classList.add('hidden');
+        document.getElementById('modalCancel').classList.remove('hidden');
+        document.getElementById('modalOk').onclick = function() {
+            document.getElementById('customModal').classList.add('hidden');
+            if(callback) callback(true);
+        };
+        document.getElementById('modalCancel').onclick = function() {
+            document.getElementById('customModal').classList.add('hidden');
+            if(callback) callback(false);
+        };
+    };
+
+    // ==========================================
+    // 2. CORE SYSTEM & DATABASE
+    // ==========================================
     var SUPER_ADMIN_ID = "Santosh822124"; 
     var SUPER_ADMIN_PIN = "822124";
     var db = {};
-    var isStorageBlocked = false;
+    var activeUser = ""; 
+    var activeRole = ""; 
+    var isSuperAdmin = false;
 
-    // --- 2. BILINGUAL SYSTEM ---
-    var currentLang = 'en'; // DEFAULT ENGLISH
+    // Translation Dictionaries 
+    var lang = 'hi'; // Default Hindi
+    var tDict = {
+        'en': { months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], locked: "🔒 Locked (Future)" },
+        'hi': { months: ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"], days: ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"], locked: "🔒 लॉक (आगे की तारीख)" }
+    };
 
-    var monthsEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var monthsHi = ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"];
-    var daysEn = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var daysHi = ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"];
-    var MANAGER_ROLES = ["Supervisor", "Engineer", "Contractor", "सुपरवाइजर", "इंजीनियर", "ठेकेदार"];
-
-    function showToast(msg) {
+    window.showToast = function(msg) {
         var t = document.getElementById('toast');
-        t.innerText = msg;
-        t.style.display = 'block';
-        setTimeout(function(){ t.style.display = 'none'; }, 3000);
-    }
+        t.innerText = msg; t.style.display = 'block';
+        setTimeout(function(){ t.style.display = 'none'; }, 2500);
+    };
 
-    function toggleLanguage() {
-        currentLang = (currentLang === 'en') ? 'hi' : 'en';
-        applyLanguage();
-        
-        var monthSelect = document.getElementById('monthSelect');
-        var currentMonthVal = monthSelect.value;
-        monthSelect.innerHTML = '';
-        var mArr = (currentLang === 'en') ? monthsEn : monthsHi;
-        for(var i=0; i<mArr.length; i++) {
-            monthSelect.innerHTML += '<option value="'+i+'">'+mArr[i]+'</option>';
-        }
-        if(currentMonthVal) monthSelect.value = currentMonthVal;
-        
-        if (document.getElementById('screenApp').className.indexOf('hidden') === -1) { loadApp(); } 
-        else if (document.getElementById('screenDash').className.indexOf('hidden') === -1) { loadDash(); } 
-        else if (document.getElementById('screenHistory').className.indexOf('hidden') === -1) { openHistory(); }
-    }
+    window.t = function(en, hi) { return lang === 'en' ? en : hi; };
 
-    function applyLanguage() {
-        document.getElementById('langLabel').innerText = (currentLang === 'en') ? 'हिंदी' : 'English';
+    window.toggleLanguage = function() {
+        lang = (lang === 'en') ? 'hi' : 'en';
+        document.getElementById('langLabel').innerText = (lang === 'en') ? 'हिंदी' : 'English';
+        
         var els = document.querySelectorAll('[data-en]');
-        for(var i=0; i<els.length; i++) {
-            els[i].innerText = els[i].getAttribute('data-' + currentLang);
-        }
+        for(var i=0; i<els.length; i++) { els[i].innerText = els[i].getAttribute('data-' + lang); }
+        
         var placeEls = document.querySelectorAll('[data-en-place]');
-        for(var j=0; j<placeEls.length; j++) {
-            placeEls[j].placeholder = placeEls[j].getAttribute('data-' + currentLang + '-place');
+        for(var j=0; j<placeEls.length; j++) { placeEls[j].placeholder = placeEls[j].getAttribute('data-' + lang + '-place'); }
+        
+        // Update Month Select safely
+        var mSel = document.getElementById('monthSelect');
+        if(mSel) {
+            var curM = mSel.value;
+            mSel.innerHTML = '';
+            var mArr = tDict[lang].months;
+            for(var k=0; k<12; k++) { mSel.innerHTML += '<option value="'+k+'">'+mArr[k]+'</option>'; }
+            if(curM) mSel.value = curM;
         }
-    }
-
-    function t(enText, hiText) { return currentLang === 'en' ? enText : hiText; }
-
-    var activeLoginMobile = ""; var activeLaborMobile = ""; var activeRole = ""; var isSuperAdmin = false;
-
-    // --- 3. INITIALIZATION ---
-    function initApp() {
-        safeLoadDB();
-        applyLanguage();
         
-        var monthSelect = document.getElementById('monthSelect');
-        var mArr = (currentLang === 'en') ? monthsEn : monthsHi;
-        for(var i=0; i<mArr.length; i++) { monthSelect.innerHTML += '<option value="'+i+'">'+mArr[i]+'</option>'; }
+        if(document.getElementById('screenApp').className.indexOf('hidden') === -1) { window.renderApp(); }
+    };
+
+    // ==========================================
+    // 3. STORAGE & DATA BACKUP
+    // ==========================================
+    window.loadDB = function() {
+        try {
+            var data = localStorage.getItem('SmartLaborDB_V26');
+            if(data) db = JSON.parse(data);
+            var pin = localStorage.getItem('SuperAdminPin_V26');
+            if(pin) SUPER_ADMIN_PIN = pin;
+        } catch(e) {}
+    };
+
+    window.saveDB = function() {
+        try { localStorage.setItem('SmartLaborDB_V26', JSON.stringify(db)); } catch(e) { window.showToast("Storage Full!"); }
+    };
+
+    window.backupData = function() {
+        try {
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+            var a = document.createElement('a');
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", "SmartLabor_Backup_" + new Date().getTime() + ".json");
+            document.body.appendChild(a);
+            a.click();
+            a.parentNode.removeChild(a);
+            window.showToast(t("Backup Downloaded!", "बैकअप डाउनलोड हो गया!"));
+        } catch(e) { window.customAlert("Backup failed."); }
+    };
+
+    window.importDataPrompt = function() { document.getElementById('fileInput').click(); };
+
+    window.handleRestore = function(event) {
+        var file = event.target.files[0];
+        if(!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                var newDb = JSON.parse(e.target.result);
+                if(typeof newDb === 'object') {
+                    db = newDb; window.saveDB();
+                    window.customAlert(t("Data Restored Successfully!", "डाटा वापस आ गया!"), function() { window.location.reload(); });
+                }
+            } catch(err) { window.customAlert(t("Invalid File!", "गलत फाइल!")); }
+        };
+        reader.readAsText(file);
+    };
+
+    window.initApp = function() {
+        window.loadDB();
         
-        var d = new Date();
-        monthSelect.value = d.getMonth();
-        document.getElementById('yearInput').value = d.getFullYear();
+        var mSel = document.getElementById('monthSelect');
+        if(mSel) {
+            var mArr = tDict[lang].months;
+            for(var i=0; i<12; i++) { mSel.innerHTML += '<option value="'+i+'">'+mArr[i]+'</option>'; }
+            var d = new Date();
+            mSel.value = d.getMonth();
+        }
+        var yInp = document.getElementById('yearInput');
+        if(yInp) yInp.value = new Date().getFullYear();
+
+        window.toggleLanguage(); // Apply language on boot
+        window.attachEvents(); // Attach all listeners!
 
         // Check Login State
         try {
-            var savedUser = window.localStorage.getItem('SmartLabor_ActiveUser_V14');
-            var savedRole = window.localStorage.getItem('SmartLabor_ActiveRole_V14');
-            
+            var savedUser = window.localStorage.getItem('ActiveUser_V26');
+            var savedRole = window.localStorage.getItem('ActiveRole_V26');
             if(savedUser === "ADMIN") {
-                isSuperAdmin = true; activeRole = t("Owner", "मालिक");
-                showScreen('screenDash'); loadDash();
+                isSuperAdmin = true; activeRole = "Owner";
+                window.showScreen('screenDash'); window.loadDash();
             } else if(savedUser && db[savedUser]) {
-                activeLoginMobile = savedUser;
-                activeRole = savedRole || "Labor";
-                isSuperAdmin = false;
-                
-                if(MANAGER_ROLES.indexOf(activeRole) > -1) { 
-                    showScreen('screenDash'); loadDash();
-                } else { 
-                    activeLaborMobile = savedUser; 
-                    migrateUserIfNeeded(savedUser);
-                    setupLaborView();
-                    showScreen('screenApp'); loadApp(); 
+                activeUser = savedUser; activeRole = savedRole || "Labor"; isSuperAdmin = false;
+                if(["Supervisor", "Contractor", "Engineer", "सुपरवाइजर", "ठेकेदार"].indexOf(activeRole) > -1) {
+                    window.showScreen('screenDash'); window.loadDash();
+                } else {
+                    window.repairUser(activeUser); window.showScreen('screenApp'); window.loadAppUI();
                 }
-            } else {
-                showScreen('screenLogin');
-            }
-        } catch(e) { showScreen('screenLogin'); }
-    }
+            } else { window.showScreen('screenLogin'); }
+        } catch(e) { window.showScreen('screenLogin'); }
+    };
 
-    function safeLoadDB() {
-        try {
-            var savedPin = window.localStorage.getItem('SuperAdminPin_SafeV14');
-            if(savedPin) SUPER_ADMIN_PIN = savedPin;
-            var savedDB = window.localStorage.getItem('SmartLaborDB_SafeV14');
-            if(savedDB) { db = JSON.parse(savedDB); }
-        } catch(e) { isStorageBlocked = true; db = {}; }
-    }
+    window.repairUser = function(mob) {
+        if(!db[mob]) return;
+        var u = db[mob];
+        u.name = u.name || "User"; u.phone = mob;
+        if(!u.sites || typeof u.sites !== 'object') u.sites = {};
+        var keys = Object.keys(u.sites);
+        if(keys.length === 0) {
+            u.sites['site_1'] = { companyName: "Company", location: "", designation: "", dailyWage: 0, hours: 8, advance: 0, attendanceStat: {}, attendanceOT: {} };
+            u.activeSiteId = 'site_1';
+        } else if(!u.activeSiteId || !u.sites[u.activeSiteId]) {
+            u.activeSiteId = keys[0];
+        }
+        window.saveDB();
+    };
 
-    function safeSaveDB() { 
-        if(isStorageBlocked) return; 
-        try { window.localStorage.setItem('SmartLaborDB_SafeV14', JSON.stringify(db)); } catch(e) {} 
-    }
-
-    function saveLoginState(mobile, role) {
-        if(isStorageBlocked) return;
-        try {
-            window.localStorage.setItem('SmartLabor_ActiveUser_V14', mobile);
-            window.localStorage.setItem('SmartLabor_ActiveRole_V14', role);
-        } catch(e){}
-    }
-
-    function migrateUserIfNeeded(mobile) {
-        try {
-            var u = db[mobile];
-            if(!u) return;
-            if(!u.phone) u.phone = mobile; 
-            if(!u.sites) {
-                var sId = 'site_1';
-                u.sites = {};
-                u.activeSiteId = sId;
-                u.sites[sId] = {
-                    companyName: u.company || t("Default Company", "डिफ़ॉल्ट कंपनी"), empId: u.empId || "", joinDate: u.joinDate || "", declaration: u.declaration || "",
-                    dailyWage: u.dailyWage || 500, hours: u.hours || 8, advance: u.advance || 0,
-                    attendanceStat: u.attendanceStat || {}, attendanceOT: u.attendanceOT || {}
-                };
-                safeSaveDB();
-            }
-        } catch(e) {}
-    }
-    
-    function showScreen(screenId) {
-        var screens = document.querySelectorAll('.screen');
-        for(var i=0; i<screens.length; i++) { screens[i].classList.add('hidden'); }
-        var target = document.getElementById(screenId);
+    window.showScreen = function(id) {
+        var sc = document.querySelectorAll('.screen');
+        for(var i=0; i<sc.length; i++) sc[i].classList.add('hidden');
+        var target = document.getElementById(id);
         if(target) target.classList.remove('hidden');
         window.scrollTo(0,0);
-    }
+    };
 
-    var saveTimeout;
-    function showSaveBadge() {
-        var badge = document.getElementById('saveBadge');
-        if(badge) {
-            badge.style.opacity = 1;
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(function() { badge.style.opacity = 0; }, 1500);
-        }
-    }
-
-    function clearLogins() {
-        document.getElementById('loginId').value = ""; document.getElementById('loginPin').value = "";
-        document.getElementById('adminIdInput').value = ""; document.getElementById('adminPinInput').value = "";
-        document.getElementById('resetMobile').value = ""; document.getElementById('resetNewPin').value = "";
-        document.getElementById('addMemName').value = ""; document.getElementById('addMemMobile').value = ""; document.getElementById('addMemPin').value = "";
-        document.getElementById('addSiteName').value = "";
-    }
-
-    function setupLaborView() {
-        document.getElementById('btnBackToDash').classList.add('hidden');
-        document.getElementById('btnHistory').classList.remove('hidden');
-        document.getElementById('btnAppLogout').classList.remove('hidden');
-        var uName = ""; if(db[activeLaborMobile]) uName = db[activeLaborMobile].name;
-        document.getElementById('appWelcomeUser').innerHTML = '👤 <b>' + uName + '</b>';
-    }
-
-    // --- 4. LOGINS ---
-    function loginUser() {
-        var loginId = document.getElementById('loginId').value.trim();
+    // ==========================================
+    // 4. AUTHENTICATION
+    // ==========================================
+    window.loginUser = function() {
+        var id = document.getElementById('loginId').value.trim();
         var pin = document.getElementById('loginPin').value.trim();
+        if(!id || !pin) { window.customAlert(t("Enter Number & PIN", "नंबर और पिन डालें")); return; }
         
-        if(!loginId || !pin) { showToast(t("Enter Number and PIN!", "नंबर और पिन डालें!")); return; }
-        if(loginId.toLowerCase() === SUPER_ADMIN_ID.toLowerCase() && pin === SUPER_ADMIN_PIN) {
-            isSuperAdmin = true; activeRole = t("Owner", "मालिक");
-            saveLoginState("ADMIN", activeRole);
-            clearLogins(); loadDash(); return;
+        if(id.toLowerCase() === SUPER_ADMIN_ID.toLowerCase() && pin === SUPER_ADMIN_PIN) {
+            isSuperAdmin = true; activeRole = "Owner"; localStorage.setItem('ActiveUser_V26', "ADMIN");
+            document.getElementById('loginId').value=""; document.getElementById('loginPin').value="";
+            window.showScreen('screenDash'); window.loadDash(); return;
         }
-        if(db[loginId] && db[loginId].pin === pin) {
-            activeLoginMobile = loginId; activeRole = db[loginId].role || "Labor"; isSuperAdmin = false;
-            saveLoginState(loginId, activeRole);
-            clearLogins();
-            if(MANAGER_ROLES.indexOf(activeRole) > -1) { 
-                loadDash(); 
-            } else { 
-                activeLaborMobile = loginId; migrateUserIfNeeded(loginId);
-                setupLaborView(); loadApp(); 
+
+        if(db[id] && db[id].pin === pin) {
+            activeUser = id; activeRole = db[id].role || "Labor";
+            localStorage.setItem('ActiveUser_V26', activeUser); localStorage.setItem('ActiveRole_V26', activeRole);
+            document.getElementById('loginId').value=""; document.getElementById('loginPin').value="";
+            if(["Supervisor", "Contractor", "Engineer", "सुपरवाइजर", "ठेकेदार"].indexOf(activeRole) > -1) {
+                window.showScreen('screenDash'); window.loadDash();
+            } else {
+                window.repairUser(activeUser); window.showScreen('screenApp'); window.loadAppUI(); 
             }
-        } else { showToast(t("Wrong Mobile or PIN!", "गलत मोबाइल या पिन!")); }
-    }
+        } else { window.customAlert(t("Wrong Mobile or PIN!", "गलत मोबाइल या पिन!")); }
+    };
 
-    function superAdminLogin() {
-        var userId = document.getElementById('adminIdInput').value.trim();
+    window.superAdminLogin = function() {
+        var id = document.getElementById('adminIdInput').value.trim();
         var pin = document.getElementById('adminPinInput').value.trim();
-        if(userId.toLowerCase() === SUPER_ADMIN_ID.toLowerCase() && pin === SUPER_ADMIN_PIN) {
-            isSuperAdmin = true; activeRole = t("Owner", "मालिक"); 
-            saveLoginState("ADMIN", activeRole);
-            clearLogins(); loadDash();
-        } else { showToast(t("Wrong Admin ID or PIN!", "एडमिन आईडी या पिन गलत है!")); }
-    }
+        if(id.toLowerCase() === SUPER_ADMIN_ID.toLowerCase() && pin === SUPER_ADMIN_PIN) {
+            isSuperAdmin = true; activeRole = "Owner"; localStorage.setItem('ActiveUser_V26', "ADMIN");
+            document.getElementById('adminIdInput').value=""; document.getElementById('adminPinInput').value="";
+            window.showScreen('screenDash'); window.loadDash();
+        } else { window.customAlert(t("Wrong Admin ID or PIN!", "गलत आईडी या पिन!")); }
+    };
 
-    function registerUser() {
-        var name = document.getElementById('regName').value.trim();
-        var mobile = document.getElementById('regMobile').value.trim();
-        var pin = document.getElementById('regPin').value.trim();
-        var role = document.getElementById('regRole').value;
-        if(!name || !mobile || !pin) { showToast(t("Fill all fields!", "सभी जानकारी भरें!")); return; }
-        if(mobile.length < 10 || isNaN(mobile)) { showToast(t("Enter valid 10-digit number!", "सही 10 अंकों का नंबर डालें!")); return; }
-        if(db[mobile]) { showToast(t("Number already registered.", "नंबर पहले से रजिस्टर है!")); return; }
+    window.registerUser = function() {
+        var n = document.getElementById('regName').value.trim();
+        var m = document.getElementById('regMobile').value.trim();
+        var p = document.getElementById('regPin').value.trim();
+        var r = document.getElementById('regRole').value;
+        if(!n || !m || !p) { window.customAlert("Fill all fields!"); return; }
+        if(m.length<10) { window.customAlert("10-digit mobile required!"); return; }
+        if(db[m]) { window.customAlert("Number already registered!"); return; }
         
-        var sId = 'site_1';
-        db[mobile] = { role: role, pin: pin, name: name, phone: mobile, activeSiteId: sId, sites: {} };
-        db[mobile].sites[sId] = { companyName: t("Default Company", "डिफ़ॉल्ट कंपनी"), empId: "", joinDate: "", declaration: "", dailyWage: 500, hours: 8, advance: 0, attendanceStat: {}, attendanceOT: {} };
-        safeSaveDB(); showToast(t("Account Created! Login now.", "अकाउंट बन गया! अब लॉग इन करें।"));
-        clearLogins(); showScreen('screenLogin');
-    }
+        db[m] = { role: r, pin: p, name: n, phone: m }; window.repairUser(m);
+        window.customAlert(t("Account Created! Please Login.", "अकाउंट बन गया! लॉग इन करें।"), function() {
+            document.getElementById('regName').value=""; document.getElementById('regMobile').value=""; document.getElementById('regPin').value="";
+            window.showScreen('screenLogin');
+        });
+    };
 
-    function resetMemberPinAction() {
+    window.resetMemberPinAction = function() {
         var mobile = document.getElementById('resetMobile').value.trim();
         var newPin = document.getElementById('resetNewPin').value.trim();
-        if (!mobile || !newPin) { showToast(t("Fill all fields!", "सभी जानकारी भरें!")); return; }
-        
+        if (!mobile || !newPin) { window.customAlert(t("Fill all fields!", "सभी जानकारी भरें!")); return; }
         if (db[mobile]) {
             if (newPin.length === 4) { 
-                db[mobile].pin = newPin; safeSaveDB(); 
-                showToast(t("PIN Changed Successfully!", "पिन सफलतापूर्वक बदल गया!")); 
-                clearLogins(); showScreen('screenLogin');
-            } else { showToast(t("Invalid PIN. Must be 4 digits.", "गलत पिन। 4 अंक का होना चाहिए।")); }
-        } else { showToast(t("Number not registered!", "यह नंबर रजिस्टर नहीं है!")); }
-    }
+                db[mobile].pin = newPin; window.saveDB(); 
+                window.customAlert(t("PIN Changed!", "पिन बदल गया!"), function() {
+                    document.getElementById('resetMobile').value=""; document.getElementById('resetNewPin').value="";
+                    window.showScreen('screenLogin');
+                });
+            } else { window.customAlert("PIN must be 4 digits!"); }
+        } else { window.customAlert("Number not found!"); }
+    };
 
-    function logout() { 
-        activeLoginMobile = ""; activeLaborMobile = ""; activeRole = ""; isSuperAdmin = false; 
-        try { window.localStorage.removeItem('SmartLabor_ActiveUser_V14'); window.localStorage.removeItem('SmartLabor_ActiveRole_V14'); } catch(e){}
-        showScreen('screenLogin'); 
-    }
+    window.resetAdminPin = function() {
+        window.customPrompt("Enter Admin ID:", "text", function(id) {
+            if(!id) return;
+            if(id.toLowerCase() === SUPER_ADMIN_ID.toLowerCase()) {
+                window.customPrompt("Enter New Admin PIN:", "text", function(p) {
+                    if(p) { SUPER_ADMIN_PIN = p; localStorage.setItem('SuperAdminPin_V26', p); window.customAlert("Admin PIN Changed!"); }
+                });
+            } else { window.customAlert("Wrong ID!"); }
+        });
+    };
 
-    // --- 5. DASHBOARD ---
-    function loadDash() {
-        showScreen('screenDash');
-        var titleName = isSuperAdmin ? t("Owner", "मालिक") : (db[activeLoginMobile] ? db[activeLoginMobile].name : "");
-        document.getElementById('dashTitle').innerText = activeRole + ' Panel (' + titleName + ')';
-        var tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+    window.logout = function() {
+        activeUser = ""; activeRole = ""; isSuperAdmin = false;
+        localStorage.removeItem('ActiveUser_V26'); localStorage.removeItem('ActiveRole_V26');
+        window.showScreen('screenLogin');
+    };
+
+    // ==========================================
+    // 5. DASHBOARD
+    // ==========================================
+    window.loadDash = function() {
+        var tName = isSuperAdmin ? t("Owner", "मालिक") : (db[activeUser] ? db[activeUser].name : "");
+        var dTitle = document.getElementById('dashTitle');
+        if(dTitle) dTitle.innerText = activeRole + " Panel (" + tName + ")";
+        
+        var tbody = document.getElementById('adminTableBody'); 
+        if(!tbody) return;
+        tbody.innerHTML = "";
         var hasData = false;
         
-        var editTxt = t("Edit", "एडिट");
-        
-        for(var mobile in db) {
-            hasData = true; var user = db[mobile];
-            var r = user.role || "Labor";
-            var n = user.name || "N/A";
-            var tr = document.createElement('tr');
-            tr.innerHTML = '<td><b>'+n+'</b></td><td style="color:#1d4ed8; font-size:11px; font-weight:bold;">'+r+'</td><td style="font-size:12px;">'+mobile+'</td><td><button type="button" class="btn btn-primary" style="width:auto; padding:5px 8px; font-size:11px; margin:0;" onclick="editUser(\''+mobile+'\')">'+editTxt+'</button></td>';
-            tbody.appendChild(tr);
+        for(var mob in db) {
+            hasData = true; var u = db[mob];
+            var div = document.createElement('div');
+            div.style.cssText = "background:#F8F9FA; padding:15px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border:1px solid #E2E8F0;";
+            div.innerHTML = '<div><b style="font-size:15px; color:#1e293b;">'+(u.name||"User")+'</b><br><span style="font-size:12px; color:var(--primary); font-weight:bold;">'+(u.role||"Labor")+' | '+mob+'</span></div>' +
+                            '<div style="display:flex; gap:5px;"><button class="btn btn-primary" style="margin:0; padding:8px 12px; font-size:11px;" data-action="editUser" data-mob="'+mob+'">Edit</button>' +
+                            '<button class="btn btn-danger" style="margin:0; padding:8px 12px; font-size:11px;" data-action="deleteUser" data-mob="'+mob+'">Del</button></div>';
+            tbody.appendChild(div);
         }
-        if(!hasData) tbody.innerHTML = '<tr><td colspan="4" style="padding:15px; color:#9ca3af;">'+t("No members.", "कोई मेंबर नहीं है।")+'</td></tr>';
-    }
+        if(!hasData) tbody.innerHTML = '<div style="text-align:center; padding:15px; color:#64748b;">'+t("No members.", "कोई मेंबर नहीं है।")+'</div>';
+    };
 
-    function addLaborByManagerAction() {
-        var name = document.getElementById('addMemName').value.trim();
-        var mobile = document.getElementById('addMemMobile').value.trim();
-        var pin = document.getElementById('addMemPin').value.trim();
-        
-        if(!name || !mobile || !pin) { showToast(t("Fill all fields!", "सभी जानकारी भरें!")); return; }
-        if(mobile.length < 10 || isNaN(mobile)) { showToast(t("Invalid Mobile!", "गलत मोबाइल नंबर!")); return; }
-        if(db[mobile]) { showToast(t("Already registered!", "पहले से रजिस्टर है!")); return; }
-        if(pin.length !== 4) { showToast(t("PIN must be 4 digits.", "4 अंक का पिन डालें।")); return; }
-        
-        var sId = 'site_1';
-        db[mobile] = { role: "Labor", pin: pin, name: name, phone: mobile, activeSiteId: sId, sites: {} };
-        db[mobile].sites[sId] = { companyName: t("Default Company", "डिफ़ॉल्ट कंपनी"), empId: "", joinDate: "", declaration: "", dailyWage: 500, hours: 8, advance: 0, attendanceStat: {}, attendanceOT: {} };
-        safeSaveDB(); showToast(t("Member Added!", "नया मेंबर जुड़ गया!")); 
-        clearLogins(); loadDash();
-    }
+    window.addLaborByManagerAction = function() {
+        window.customPrompt(t("Enter Member Name:", "मेंबर का नाम डालें:"), "text", function(n) {
+            if(!n) return;
+            window.customPrompt(t("Enter 10-digit Mobile:", "10 अंकों का मोबाइल डालें:"), "tel", function(m) {
+                if(!m || m.length<10) { window.customAlert("Invalid Mobile!"); return; }
+                if(db[m]) { window.customAlert("Already registered!"); return; }
+                window.customPrompt(t("Create 4-digit PIN:", "4 अंकों का पिन बनाएं:"), "number", function(p) {
+                    if(!p || p.length!==4) { window.customAlert("PIN must be 4 digits!"); return; }
+                    db[m] = { role: "Labor", pin: p, name: n, phone: m }; window.repairUser(m);
+                    window.showToast("Member Added!"); window.showScreen('screenDash'); window.loadDash();
+                });
+            });
+        });
+    };
 
-    function editUser(mobile) {
-        activeLaborMobile = mobile; migrateUserIfNeeded(mobile);
+    window.deleteUser = function(mob) {
+        if(!isSuperAdmin && mob === activeUser) { window.customAlert("Can't delete yourself!"); return; }
+        window.customConfirm(t("Delete this user?", "यूजर डिलीट करें?"), function(ans) {
+            if(ans) { delete db[mob]; window.saveDB(); window.showToast("Deleted!"); window.loadDash(); }
+        });
+    };
+
+    window.editUser = function(mob) {
+        activeUser = mob; window.repairUser(mob);
         document.getElementById('btnBackToDash').classList.remove('hidden');
-        document.getElementById('btnHistory').classList.remove('hidden');
-        document.getElementById('btnAppLogout').classList.add('hidden');
-        var uName = ""; if(db[activeLaborMobile]) uName = db[activeLaborMobile].name;
-        document.getElementById('appWelcomeUser').innerHTML = '📝 ' + t("Editing", "एडिटिंग") + ': <b>' + uName + '</b>';
-        loadApp();
-    }
+        window.showScreen('screenApp'); window.loadAppUI();
+    };
 
-    function addNewSiteAction() {
-        var cName = document.getElementById('addSiteName').value.trim();
-        if(!cName) { showToast(t("Enter Site Name!", "साइट का नाम डालें!")); return; }
-        var user = db[activeLaborMobile];
-        if(!user) return;
-        var sId = 'site_' + new Date().getTime();
-        user.sites[sId] = { companyName: cName, empId: "", joinDate: "", declaration: "", dailyWage: 500, hours: 8, advance: 0, attendanceStat: {}, attendanceOT: {} };
-        user.activeSiteId = sId; safeSaveDB(); 
-        clearLogins(); loadApp();
-    }
+    // ==========================================
+    // 6. MAIN APP & LIVE SYNC LOGIC
+    // ==========================================
+    window.safeSetVal = function(id, val) { var el=document.getElementById(id); if(el) el.value=val; };
+    window.safeGetVal = function(id) { var el=document.getElementById(id); return el ? el.value.trim() : ""; };
+    window.safeSetTxt = function(id, txt) { var el=document.getElementById(id); if(el) el.innerText=txt; };
 
-    function switchSite() {
-        var user = db[activeLaborMobile];
-        if(!user) return;
-        user.activeSiteId = document.getElementById('siteSelect').value;
-        safeSaveDB(); loadApp();
-    }
-
-    function openHistory() {
-        showScreen('screenHistory');
-        var user = db[activeLaborMobile];
-        if(!user) return;
-        var html = '';
-
-        for(var sId in user.sites) {
-            var site = user.sites[sId];
-            var ymObj = {}; // Object acting as Set
+    window.loadAppUI = function() {
+        try {
+            var u = db[activeUser];
+            if(!u) return;
+            var wUser = document.getElementById('appWelcomeUser');
+            if(wUser) wUser.innerHTML = '👤 <b>' + (u.name || "User") + '</b>';
             
-            for(var dateKey in site.attendanceStat) { var p1 = dateKey.split('-'); ymObj[p1[0] + '-' + p1[1]] = true; }
-            for(var dateKeyOT in site.attendanceOT) { var p2 = dateKeyOT.split('-'); ymObj[p2[0] + '-' + p2[1]] = true; }
+            var sSel = document.getElementById('siteSelect'); 
+            if(sSel) {
+                sSel.innerHTML = '';
+                for(var sId in u.sites) {
+                    var sName = u.sites[sId].companyName || "Company";
+                    sSel.innerHTML += '<option value="'+sId+'" '+(sId===u.activeSiteId?'selected':'')+'>'+sName+'</option>';
+                }
+            }
             
-            var ymArr = Object.keys(ymObj);
+            var site = u.sites[u.activeSiteId];
+            if(!site) return;
+
+            window.safeSetVal('profName', u.name || "");
+            window.safeSetVal('profPhone', u.phone || activeUser);
+            window.safeSetVal('profCompany', site.companyName || "");
+            window.safeSetVal('profLocation', site.location || "");
+            window.safeSetVal('profId', site.empId || "");
+            window.safeSetVal('profDesignation', site.designation || "");
+            window.safeSetVal('profJoinDate', site.joinDate || "");
+            window.safeSetVal('profDailyWage', site.dailyWage || 0);
+            window.safeSetVal('profHours', site.hours || 8);
+            window.safeSetVal('profAdvance', site.advance || 0);
+            
+            window.syncData(); 
+            window.renderApp(); 
+        } catch(e) { }
+    };
+
+    window.addNewSiteAction = function() {
+        window.customPrompt(t("Enter Site Name:", "नई कंपनी/साइट का नाम:"), "text", function(cn) {
+            if(!cn) return;
+            var u = db[activeUser];
+            var sId = 'site_' + new Date().getTime();
+            u.sites[sId] = { companyName: cn, location: "", designation: "", dailyWage: 500, hours: 8, advance: 0, attendanceStat: {}, attendanceOT: {} };
+            u.activeSiteId = sId; window.saveDB(); 
+            window.showScreen('screenApp'); window.loadAppUI();
+        });
+    };
+
+    window.switchSite = function() {
+        var u = db[activeUser];
+        var sSel = document.getElementById('siteSelect');
+        if(u && sSel) {
+            u.activeSiteId = sSel.value;
+            window.saveDB(); window.loadAppUI();
+        }
+    };
+
+    window.syncData = function() {
+        try {
+            var u = db[activeUser];
+            if(!u) return;
+            var site = u.sites[u.activeSiteId];
+            if(!site) return;
+            
+            u.name = window.safeGetVal('profName');
+            site.companyName = window.safeGetVal('profCompany');
+            site.location = window.safeGetVal('profLocation');
+            site.empId = window.safeGetVal('profId');
+            site.designation = window.safeGetVal('profDesignation');
+            site.joinDate = window.safeGetVal('profJoinDate');
+            
+            var dw = parseFloat(window.safeGetVal('profDailyWage'));
+            site.dailyWage = isNaN(dw) ? 0 : dw;
+            
+            var dh = parseFloat(window.safeGetVal('profHours'));
+            site.hours = isNaN(dh) ? 8 : dh;
+            
+            var adv = parseFloat(window.safeGetVal('profAdvance'));
+            site.advance = isNaN(adv) ? 0 : adv;
+
+            var sSel = document.getElementById('siteSelect');
+            if(sSel && sSel.selectedIndex >= 0) {
+                sSel.options[sSel.selectedIndex].text = site.companyName || "Company";
+            }
+
+            window.saveDB(); 
+            window.calculate(); 
+        } catch(e) {}
+    };
+
+    // --- ATTENDANCE SYSTEM ---
+    window.toggleAtt = function(key, val) {
+        var u = db[activeUser]; 
+        var site = u.sites[u.activeSiteId];
+        if(!site.attendanceStat) site.attendanceStat = {};
+        if(site.attendanceStat[key] === val) delete site.attendanceStat[key];
+        else site.attendanceStat[key] = val;
+        window.saveDB(); window.renderApp(); 
+    };
+
+    window.updateDailyOT = function(key, val) {
+        var u = db[activeUser]; 
+        var site = u.sites[u.activeSiteId];
+        if(!site.attendanceOT) site.attendanceOT = {};
+        site.attendanceOT[key] = parseFloat(val) || 0;
+        window.saveDB(); window.calculate(); 
+    };
+
+    window.renderApp = function() {
+        try {
+            var mSel = document.getElementById('monthSelect');
+            var month = parseInt(mSel.value);
+            if(isNaN(month)) month = new Date().getMonth();
+            var yInp = document.getElementById('yearInput');
+            var year = parseInt(yInp.value);
+            if(isNaN(year)) year = new Date().getFullYear();
+            
+            var list = document.getElementById('attList'); 
+            if(!list) return;
+            list.innerHTML = '';
+            
+            var dim = new Date(year, month + 1, 0).getDate();
+            
+            var u = db[activeUser]; 
+            if(!u) return;
+            var site = u.sites[u.activeSiteId];
+            if(!site) return;
+
+            var stat = site.attendanceStat || {}; 
+            var ot = site.attendanceOT || {};
+            var curLangDict = tDict[lang] || tDict['en'];
+            
+            var today = new Date();
+            var ty = today.getFullYear();
+            var tm = today.getMonth();
+            var td = today.getDate();
+            
+            var htmlStr = '';
+            for(var d=1; d<=dim; d++) {
+                var dateObj = new Date(year, month, d);
+                var key = year + '-' + month + '-' + d;
+                var s = stat[key] || '';
+                var o = ot[key] || '';
+                
+                var dName = curLangDict.days[dateObj.getDay()];
+                var mName = curLangDict.months[month];
+
+                // FUTURE DATE LOGIC
+                var isFut = false;
+                if(year > ty) { isFut = true; }
+                else if(year === ty && month > tm) { isFut = true; }
+                else if(year === ty && month === tm && d > td) { isFut = true; }
+
+                htmlStr += '<div class="day-row">';
+                htmlStr += '<div class="day-header"><span class="date-text">📅 '+d+' '+mName+'</span><span class="day-text">'+dName+'</span></div>';
+
+                if (isFut) {
+                    htmlStr += '<div class="no-print" style="text-align:center; color:#9ca3af; font-size:12px; font-weight:bold; padding: 10px 0; background:#f8fafc; border-radius:8px;">'+t('🔒 Locked (Future Date)','🔒 लॉक (आगे की तारीख)')+'</div>';
+                    htmlStr += '<div class="print-only"><b>'+t('Status:','स्थिति:')+'</b> - &nbsp;|&nbsp; <b>'+t('OT:','ओवरटाइम:')+'</b> -</div>';
+                } else {
+                    var actP = (s === 'P') ? 'active-P' : '';
+                    var actA = (s === 'A') ? 'active-A' : '';
+                    var actHD = (s === 'HD') ? 'active-HD' : '';
+                    
+                    htmlStr += '<div class="day-actions no-print"><div class="btn-group"><button class="'+actP+'" data-action="toggleAtt" data-key="'+key+'" data-val="P">P</button><button class="'+actA+'" data-action="toggleAtt" data-key="'+key+'" data-val="A">A</button><button class="'+actHD+'" data-action="toggleAtt" data-key="'+key+'" data-val="HD">HD</button></div><div class="ot-box"><label>OT</label><input type="number" value="'+o+'" placeholder="0" data-action="updateOT" data-key="'+key+'"></div></div>';
+                    
+                    var pStat = (s==='P')?t('Present','उपस्थित'):(s==='A')?t('Absent','अनुपस्थित'):(s==='HD')?t('Half Day','हाफ डे'):'-';
+                    var pOt = (o)?(o+' '+t('Hrs','घंटे')):'-';
+                    htmlStr += '<div class="print-only"><b>'+t('Status:','स्थिति:')+'</b> ' + pStat + ' &nbsp;|&nbsp; <b>'+t('OT:','ओवरटाइम:')+'</b> ' + pOt + '</div>';
+                }
+                htmlStr += '</div>';
+            }
+            list.innerHTML = htmlStr;
+            window.calculate();
+        } catch(e) {}
+    };
+
+    window.calculate = function() {
+        try {
+            var month = parseInt(document.getElementById('monthSelect').value);
+            if(isNaN(month)) month = new Date().getMonth();
+            var year = parseInt(document.getElementById('yearInput').value);
+            if(isNaN(year)) year = new Date().getFullYear();
+
+            var u = db[activeUser]; 
+            if(!u) return;
+            var site = u.sites[u.activeSiteId];
+            if(!site) return;
+            
+            var w = parseFloat(site.dailyWage) || 0;
+            var h = parseFloat(site.hours) || 8;
+            var adv = parseFloat(site.advance) || 0;
+            var hrRate = h > 0 ? (w / h) : 0;
+            
+            var pCount=0; var hdCount=0; var aCount=0; var sumOT=0;
+            var stat = site.attendanceStat || {}; var ot = site.attendanceOT || {};
+            
+            for(var d=1; d<=31; d++) {
+                var k = year+'-'+month+'-'+d;
+                if(stat[k]==='P') pCount++;
+                if(stat[k]==='A') aCount++;
+                if(stat[k]==='HD') hdCount++;
+                if(ot[k]) sumOT += parseFloat(ot[k]) || 0;
+            }
+            
+            var amtP = pCount * w;
+            var amtHD = hdCount * (w / 2);
+            var amtOT = sumOT * hrRate;
+            var finalPay = amtP + amtHD + amtOT - adv;
+
+            var curLangDict = tDict[lang] || tDict['en'];
+            
+            // Safe Update DOM
+            window.safeSetTxt('cardName', u.name || "-");
+            window.safeSetTxt('cardMobile', u.phone || activeUser);
+            window.safeSetTxt('slipCompanyHeading', site.companyName || t("COMPANY NAME", "कंपनी का नाम"));
+            window.safeSetTxt('slipCompanyLocation', site.location || t("Location", "साइट का पता"));
+            window.safeSetTxt('cardMonth', curLangDict.months[month] + " " + year);
+            window.safeSetTxt('cardId', site.empId || "-");
+            window.safeSetTxt('cardDesignation', site.designation || "-");
+            window.safeSetTxt('cardRole', u.role || t("Labor", "लेबर"));
+            window.safeSetTxt('cardJoinDate', site.joinDate || "-");
+            window.safeSetTxt('cardDaily', "₹" + w);
+            window.safeSetTxt('cardHrRate', "₹" + hrRate.toFixed(2));
+            
+            window.safeSetTxt('cP', pCount);
+            window.safeSetTxt('cPAmt', "₹" + amtP.toFixed(2));
+            window.safeSetTxt('cA', aCount);
+            window.safeSetTxt('cAAmt', "₹0.00");
+            window.safeSetTxt('cHD', hdCount);
+            window.safeSetTxt('cHDAmt', "₹" + amtHD.toFixed(2));
+            window.safeSetTxt('cOT', sumOT);
+            window.safeSetTxt('cOTAmt', "₹" + amtOT.toFixed(2));
+            window.safeSetTxt('cAdv', "- ₹" + adv);
+            window.safeSetTxt('cFinal', "₹" + finalPay.toFixed(2));
+            
+        } catch(e) {}
+    };
+
+    window.openHistory = function() {
+        window.showScreen('screenHistory');
+        var u = db[activeUser];
+        if(!u) return;
+        var list = document.getElementById('historyList'); 
+        if(!list) return;
+        list.innerHTML = '';
+        var hasHistory = false;
+        
+        for(var sId in u.sites) {
+            var site = u.sites[sId];
+            var keys = {};
+            for(var k1 in site.attendanceStat) { var p1 = k1.split('-'); keys[p1[0]+'-'+p1[1]] = true; }
+            for(var k2 in site.attendanceOT) { var p2 = k2.split('-'); keys[p2[0]+'-'+p2[1]] = true; }
+            
+            var ymArr = Object.keys(keys).sort().reverse();
             if(ymArr.length > 0) {
-                var cName = site.companyName || 'Unnamed Site';
-                html += '<div style="margin-top:15px; margin-bottom:5px; font-weight:bold; color:#1d4ed8; border-bottom:2px solid #bfdbfe; padding-bottom:5px; font-size:14px;">🏢 ' + cName + '</div>';
-                
-                ymArr.sort().reverse(); // Sort descending
-                
-                for(var k=0; k<ymArr.length; k++) {
-                    var parts = ymArr[k].split('-');
-                    var y = parts[0]; var m = parseInt(parts[1]);
-                    var mArr = (currentLang === 'en') ? monthsEn : monthsHi;
-                    var monthName = mArr[m];
-                    var btnTxt = t("View Slip", "स्लिप देखें");
-                    html += '<div class="day-row" style="flex-direction:row; justify-content:space-between; align-items:center; padding:10px; background:#fff;"><div style="font-weight:bold; font-size:14px;">📅 ' + monthName + ' ' + y + '</div><button class="btn btn-primary" style="width:auto; margin:0; padding:6px 12px; font-size:11px;" onclick="loadSlipFromHistory(\''+sId+'\', '+y+', '+m+')">' + btnTxt + '</button></div>';
+                hasHistory = true;
+                var curLangDict = tDict[lang] || tDict['en'];
+                var cName = site.companyName || 'Company';
+                list.innerHTML += '<div style="color:var(--primary); font-weight:bold; margin-top:15px; border-bottom:2px solid #e2e8f0; padding-bottom:5px;">🏢 ' + cName + '</div>';
+                for(var i=0; i<ymArr.length; i++) {
+                    var y = ymArr[i].split('-')[0]; var m = parseInt(ymArr[i].split('-')[1]);
+                    list.innerHTML += '<div class="card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div style="font-weight:bold;">📅 '+curLangDict.months[m]+' '+y+'</div><button class="btn btn-primary" style="width:auto; margin:0; padding:8px 12px; font-size:12px;" data-action="viewSlip" data-sid="'+sId+'" data-y="'+y+'" data-m="'+m+'">'+t("View Slip", "स्लिप देखें")+'</button></div>';
                 }
             }
         }
+        if(!hasHistory) list.innerHTML = '<div class="text-center" style="color:#64748b; padding:20px;">'+t("No history found.", "कोई इतिहास नहीं है।")+'</div>';
+    };
 
-        if(html === '') { html = '<div style="text-align:center; padding:20px; color:#9ca3af; font-weight:bold; background:#f8fafc; border-radius:12px; border:2px dashed #e2e8f0;">'+t("No history found.", "कोई इतिहास नहीं है।")+'</div>'; }
-        document.getElementById('historyList').innerHTML = html;
-    }
+    window.loadHistorySlip = function(sId, y, m) {
+        var u = db[activeUser];
+        if(!u) return;
+        u.activeSiteId = sId;
+        var yInp = document.getElementById('yearInput'); if(yInp) yInp.value = y;
+        var mSel = document.getElementById('monthSelect'); if(mSel) mSel.value = m;
+        window.saveDB(); window.loadAppUI();
+    };
 
-    function loadSlipFromHistory(sId, y, m) {
-        var user = db[activeLaborMobile];
-        if(!user) return;
-        user.activeSiteId = sId;
-        document.getElementById('siteSelect').value = sId;
-        document.getElementById('yearInput').value = y;
-        document.getElementById('monthSelect').value = m;
-        safeSaveDB(); loadApp();
-    }
-
-    // --- 6. MAIN APP ---
-    function loadApp() {
-        showScreen('screenApp');
-        var user = db[activeLaborMobile];
-        if(!user) return;
-        
-        var siteHtml = '';
-        for(var sId in user.sites) {
-            var sName = user.sites[sId].companyName || t("Unnamed Site", "बिना नाम की साइट");
-            var sel = (sId === user.activeSiteId) ? 'selected' : '';
-            siteHtml += '<option value="'+sId+'" '+sel+'>'+sName+'</option>';
+    // ==========================================
+    // THE MASTER EVENT BINDER (Fixes Google Sites blocking inline JS)
+    // ==========================================
+    window.attachEvents = function() {
+        function bindClick(id, fn) {
+            var el = document.getElementById(id);
+            if(el) el.addEventListener('click', fn);
         }
-        document.getElementById('siteSelect').innerHTML = siteHtml;
 
-        var siteData = user.sites[user.activeSiteId];
-        if(!siteData) return;
-
-        document.getElementById('profName').value = user.name || "";
-        document.getElementById('profPhone').value = user.phone || activeLaborMobile;
-        document.getElementById('profId').value = siteData.empId || "";
-        document.getElementById('profCompany').value = siteData.companyName || "";
-        document.getElementById('profJoinDate').value = siteData.joinDate || "";
-        document.getElementById('profDeclaration').value = siteData.declaration || "";
-        document.getElementById('profDailyWage').value = siteData.dailyWage || 500;
-        document.getElementById('profHours').value = siteData.hours || 8;
-        document.getElementById('profAdvance').value = siteData.advance || 0;
+        // Static Buttons
+        bindClick('btnLangToggle', window.toggleLanguage);
+        bindClick('btnBackup', window.backupData);
+        bindClick('btnTopAdmin', function(){ window.showScreen('screenAdminLogin'); });
         
-        if(siteData.companyName !== t("Default Company", "डिफ़ॉल्ट कंपनी") || siteData.joinDate) { toggleProfileEdit(false); } 
-        else { toggleProfileEdit(true); }
-        renderApp();
-    }
-
-    function triggerAutoSave() {
-        var user = db[activeLaborMobile];
-        if(!user) return;
-        var siteData = user.sites[user.activeSiteId];
-        if(!siteData) return;
-
-        user.name = document.getElementById('profName').value.trim(); 
-        user.phone = document.getElementById('profPhone').value.trim();
-        siteData.empId = document.getElementById('profId').value.trim();
-        siteData.companyName = document.getElementById('profCompany').value.trim();
-        siteData.joinDate = document.getElementById('profJoinDate').value;
-        siteData.declaration = document.getElementById('profDeclaration').value.trim();
+        bindClick('btnAboutBack', function(){ window.showScreen('screenLogin'); });
+        bindClick('btnTopAbout', function(){ window.showScreen('screenAbout'); });
         
-        siteData.dailyWage = parseFloat(document.getElementById('profDailyWage').value) || 0;
-        siteData.hours = parseFloat(document.getElementById('profHours').value) || 8;
-        siteData.advance = parseFloat(document.getElementById('profAdvance').value) || 0;
+        bindClick('btnLogin', window.loginUser);
+        bindClick('btnGoToRegister', function(){ window.showScreen('screenRegister'); });
+        bindClick('btnGoToReset', function(){ window.showScreen('screenResetPin'); });
+        bindClick('btnRestoreData', window.importDataPrompt);
         
-        var selIdx = document.getElementById('siteSelect').selectedIndex;
-        if(selIdx >= 0) { document.getElementById('siteSelect').options[selIdx].text = siteData.companyName || t("Unnamed", "बिना नाम"); }
+        bindClick('btnAdminLogin', window.superAdminLogin);
+        bindClick('btnAdminReset', window.resetAdminPin);
+        bindClick('btnAdminCancel', function(){ window.showScreen('screenLogin'); });
         
-        safeSaveDB(); calculate(); showSaveBadge();
-    }
-
-    function lockProfile() { triggerAutoSave(); toggleProfileEdit(false); }
-
-    function toggleProfileEdit(isEditMode) {
-        var editSect = document.getElementById('profileEditSection');
-        var viewSect = document.getElementById('profileViewSection');
-        var editBtn = document.getElementById('btnEditProfile');
+        bindClick('btnRegister', window.registerUser);
+        bindClick('btnRegCancel', function(){ window.showScreen('screenLogin'); });
         
-        if(isEditMode) { 
-            editSect.classList.remove('hidden'); viewSect.classList.add('hidden'); editBtn.classList.add('hidden'); 
-        } else {
-            var user = db[activeLaborMobile];
-            var siteData = user.sites[user.activeSiteId];
-
-            document.getElementById('vName').innerText = user.name || "-";
-            document.getElementById('vMobile').innerText = user.phone || activeLaborMobile;
-            document.getElementById('vCompany').innerText = siteData.companyName || "-";
-            document.getElementById('vId').innerText = siteData.empId || "-";
-            document.getElementById('vJoinDate').innerText = siteData.joinDate || "-";
-            document.getElementById('vDailyWage').innerText = "₹" + (siteData.dailyWage || 0);
-            document.getElementById('vHours').innerText = siteData.hours || 0;
-            document.getElementById('vAdvance').innerText = "₹" + (siteData.advance || 0);
-            document.getElementById('vDec').innerText = siteData.declaration || "-";
-            editSect.classList.add('hidden'); viewSect.classList.remove('hidden'); editBtn.classList.remove('hidden'); 
-        }
-    }
-
-    function toggleAtt(key, val) {
-        var user = db[activeLaborMobile];
-        var siteData = user.sites[user.activeSiteId];
-        if(!siteData.attendanceStat) siteData.attendanceStat = {};
-        if (siteData.attendanceStat[key] === val) delete siteData.attendanceStat[key];
-        else siteData.attendanceStat[key] = val;
-        safeSaveDB(); renderApp(); showSaveBadge();
-    }
-
-    function updateDailyOT(key, val) {
-        var user = db[activeLaborMobile];
-        var siteData = user.sites[user.activeSiteId];
-        if(!siteData.attendanceOT) siteData.attendanceOT = {};
-        siteData.attendanceOT[key] = parseFloat(val) || 0;
-        safeSaveDB(); calculate(); showSaveBadge();
-    }
-
-    function renderApp() {
-        var mVal = document.getElementById('monthSelect').value;
-        var yVal = document.getElementById('yearInput').value;
-        var month = parseInt(mVal); var year = parseInt(yVal);
-        if(isNaN(month)) month = new Date().getMonth();
-        if(isNaN(year)) year = new Date().getFullYear();
-
-        var listDiv = document.getElementById('attList'); listDiv.innerHTML = ''; 
-        var daysInMonth = new Date(year, month + 1, 0).getDate();
+        bindClick('btnResetUpdate', window.resetMemberPinAction);
+        bindClick('btnResetCancel', function(){ window.showScreen('screenLogin'); });
         
-        var user = db[activeLaborMobile];
-        if(!user || !user.sites) return;
-        var siteData = user.sites[user.activeSiteId];
-        if(!siteData) return;
-
-        var attStat = siteData.attendanceStat || {};
-        var attOT = siteData.attendanceOT || {};
-
-        var today = new Date();
-        var todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        var lockedTxt = t("🔒 Locked (Future)", "🔒 लॉक है (भविष्य)");
-        var otTxt = t("OT(Hr):", "OT(घंटे):");
-        var mArr = (currentLang === 'en') ? monthsEn : monthsHi;
-        var dArr = (currentLang === 'en') ? daysEn : daysHi;
+        bindClick('btnDashLogout', window.logout);
+        bindClick('btnDashAddMem', function(){ window.showScreen('screenAddMember'); });
         
-        for (var day = 1; day <= daysInMonth; day++) {
-            var dateObj = new Date(year, month, day);
-            var dayName = dArr[dateObj.getDay()];
-            var monthName = mArr[month];
-            var key = year + '-' + month + '-' + day;
-            var status = attStat[key] || '';
-            var otHrs = attOT[key] || '';
-            
-            var isFuture = false;
-            if (dateObj > todayStart) { isFuture = true; }
+        bindClick('btnAddMemSave', window.addLaborByManagerAction);
+        bindClick('btnAddMemCancel', function(){ window.showScreen('screenDash'); });
+        
+        bindClick('btnAddSiteSave', window.addNewSiteAction);
+        bindClick('btnAddSiteCancel', function(){ window.showScreen('screenApp'); });
 
-            var row = document.createElement('div');
-            row.className = 'day-row';
-            
-            var actionHtml = '';
-            var headerHtml = '<div class="day-header"><span class="date-text">📅 '+day+' '+monthName+'</span><span class="day-text">'+dayName+'</span>';
+        bindClick('btnAppHistory', window.openHistory);
+        bindClick('btnAppLogout', window.logout);
+        bindClick('btnAppDash', function(){ window.showScreen('screenDash'); });
+        bindClick('btnAppNewSite', function(){ window.showScreen('screenAddSite'); });
+        
+        bindClick('btnPrintSlip', function(){ window.print(); });
+        bindClick('btnSaveProfile', window.syncData);
+        bindClick('btnHistoryBack', function(){ window.showScreen('screenApp'); });
 
-            if (isFuture) {
-                headerHtml += '</div>';
-                actionHtml = '<div style="text-align:center; color:#9ca3af; font-size:12px; font-weight:bold; padding: 10px 0; background:#f8fafc; border-radius:8px;">'+lockedTxt+'</div>';
-            } else {
-                headerHtml += '</div>';
-                var actP = (status === 'P') ? 'active-P' : '';
-                var actA = (status === 'A') ? 'active-A' : '';
-                var actHD = (status === 'HD') ? 'active-HD' : '';
-                actionHtml = '<div class="day-actions"><div class="att-btns"><button type="button" class="'+actP+'" onclick="toggleAtt(\''+key+'\', \'P\')">P</button><button type="button" class="'+actA+'" onclick="toggleAtt(\''+key+'\', \'A\')">A</button><button type="button" class="'+actHD+'" onclick="toggleAtt(\''+key+'\', \'HD\')">HD</button></div><div class="ot-box"><label>'+otTxt+'</label><input type="number" value="'+otHrs+'" placeholder="0" oninput="updateDailyOT(\''+key+'\', this.value)"></div></div>';
+        // Selects & Inputs
+        var fInp = document.getElementById('fileInput');
+        if(fInp) fInp.addEventListener('change', window.handleRestore);
+        
+        var sSel = document.getElementById('siteSelect');
+        if(sSel) sSel.addEventListener('change', window.switchSite);
+        
+        var mSel = document.getElementById('monthSelect');
+        if(mSel) mSel.addEventListener('change', window.renderApp);
+        
+        var yInp = document.getElementById('yearInput');
+        if(yInp) yInp.addEventListener('input', window.renderApp);
+
+        // Profile Inputs Binding
+        var profInputs = ['profName', 'profCompany', 'profLocation', 'profId', 'profDesignation', 'profJoinDate', 'profAdvance', 'profDailyWage', 'profHours'];
+        for(var i=0; i<profInputs.length; i++) {
+            var pEl = document.getElementById(profInputs[i]);
+            if(pEl) {
+                pEl.addEventListener('input', window.syncData);
+                pEl.addEventListener('change', window.syncData);
             }
-            row.innerHTML = headerHtml + actionHtml;
-            listDiv.appendChild(row);
         }
-        calculate();
-    }
 
-    function calculate() {
-        var mVal = document.getElementById('monthSelect').value;
-        var yVal = document.getElementById('yearInput').value;
-        var month = parseInt(mVal); var year = parseInt(yVal);
-        if(isNaN(month)) month = new Date().getMonth();
-        if(isNaN(year)) year = new Date().getFullYear();
+        // Global Delegation for Dynamic Content (Like Calendar Days & Dashboard lists)
+        document.addEventListener('click', function(e) {
+            var el = e.target;
+            while(el && el !== document) {
+                if(el.hasAttribute('data-action')) {
+                    var action = el.getAttribute('data-action');
+                    if(action === 'editUser') { window.editUser(el.getAttribute('data-mob')); return; }
+                    if(action === 'deleteUser') { window.deleteUser(el.getAttribute('data-mob')); return; }
+                    if(action === 'toggleAtt') { window.toggleAtt(el.getAttribute('data-key'), el.getAttribute('data-val')); return; }
+                    if(action === 'viewSlip') { window.loadHistorySlip(el.getAttribute('data-sid'), el.getAttribute('data-y'), el.getAttribute('data-m')); return; }
+                }
+                el = el.parentNode;
+            }
+        });
 
-        var user = db[activeLaborMobile];
-        if(!user || !user.sites) return;
-        var siteData = user.sites[user.activeSiteId];
-        if(!siteData) return;
-        
-        var wage = parseFloat(siteData.dailyWage) || 0;
-        var hours = parseFloat(siteData.hours) || 8;
-        var advance = parseFloat(siteData.advance) || 0;
-        var pCount = 0; var hdCount = 0; var totalOT = 0;
-        
-        var attStat = siteData.attendanceStat || {};
-        var attOT = siteData.attendanceOT || {};
-        
-        for (var day = 1; day <= 31; day++) {
-            var key = year + '-' + month + '-' + day;
-            if (attStat[key] === 'P') pCount++;
-            if (attStat[key] === 'HD') hdCount++;
-            if (attOT[key]) totalOT += parseFloat(attOT[key]) || 0;
-        }
-        
-        var hourly = hours > 0 ? (wage / hours) : 0;
-        var pAmt = pCount * wage;
-        var hdAmt = hdCount * (wage / 2);
-        var otAmt = totalOT * hourly;
-        var final = pAmt + hdAmt + otAmt - advance;
+        document.addEventListener('input', function(e) {
+            var el = e.target;
+            if(el && el.getAttribute('data-action') === 'updateOT') {
+                window.updateDailyOT(el.getAttribute('data-key'), el.value);
+            }
+        });
+    };
 
-        var comp = siteData.companyName || t("Company Name", "कंपनी का नाम");
-        var mArr = (currentLang === 'en') ? monthsEn : monthsHi;
-        document.getElementById('slipCompanyHeading').innerText = comp;
-        document.getElementById('cardMonth').innerText = mArr[month] + " " + year;
-        document.getElementById('cardName').innerText = user.name || "-";
-        document.getElementById('cardMobile').innerText = user.phone || activeLaborMobile;
-        document.getElementById('cardId').innerText = siteData.empId || "-";
-        document.getElementById('cardRole').innerText = user.role || t("Labor", "लेबर");
-        document.getElementById('cardJoinDate').innerText = siteData.joinDate || "-";
-        
-        document.getElementById('cardDaily').innerText = wage.toFixed(2);
-        document.getElementById('cardHrRate').innerText = hourly.toFixed(2);
-        document.getElementById('c-P').innerText = pCount;
-        document.getElementById('c-PAmt').innerText = "₹" + pAmt.toFixed(2);
-        document.getElementById('c-HD').innerText = hdCount;
-        document.getElementById('c-HDAmt').innerText = "₹" + hdAmt.toFixed(2);
-        document.getElementById('c-OT').innerText = totalOT;
-        document.getElementById('c-OTAmt').innerText = "₹" + otAmt.toFixed(2);
-        document.getElementById('c-Adv').innerText = "- ₹" + advance.toFixed(2);
-        document.getElementById('c-Final').innerText = "₹" + final.toFixed(2);
-        document.getElementById('slipDeclaration').innerText = siteData.declaration || t("Generated by Smart Labor App.", "स्मार्ट लेबर ऐप द्वारा जनरेटेड।");
-    }
-
-    // BOOT
-    initApp();
+    // START BOOT
+    window.onload = function() { setTimeout(window.initApp, 100); };
 
 </script>
 </body>
